@@ -1,0 +1,63 @@
+@font-face {
+	font-family: "bbvasans-light";
+	src: 
+	url("../fonts/ttf/bbvasans-light.ttf") format("truetype"),
+	url("../fonts/woff/bbvasans-light.woff") format("woff");
+	font-stretch: normal;
+	font-style: normal;
+	font-weight: 300;
+}
+@font-face {
+	font-family: "bbvasans-lightitalic";
+	src: 
+	url("../fonts/woff/bbvasans-lightitalic.woff") format("woff"),
+	url("../fonts/ttf/bbvasans-lightitalic.ttf") format("truetype");
+	font-stretch: normal;
+	font-style: italic;
+	font-weight: 300;
+}
+@font-face {
+	font-family: "bbvasans-book";
+	src: 
+	url("../fonts/woff/bbvasans-book.woff") format("woff"),
+	url("../fonts/ttf/bbvasans-book.ttf") format("truetype");
+	font-stretch: normal;
+	font-style: normal;
+	font-weight: 400;
+}
+@font-face {
+	font-family: "bbvasans-bookitalic";
+	src: 
+	url("../fonts/woff/bbvasans-bookitalic.woff") format("woff"),
+	url("../fonts/ttf/bbvasans-bookitalic.ttf") format("truetype");
+	font-stretch: normal;
+	font-style: italic;
+	font-weight: 400;
+}
+@font-face {
+	font-family: "bbvasans-medium";
+	src: 
+	url("../fonts/woff/bbvasans-medium.woff") format("woff"),
+	url("../fonts/ttf/bbvasans-medium.ttf") format("truetype");
+	font-stretch: normal;
+	font-style: normal;
+	font-weight: 500;
+}
+@font-face {
+	font-family: "bbvasans-mediumitalic";
+	src: 
+	url("../fonts/woff/bbvasans-mediumitalic.woff") format("woff"),
+	url("../fonts/ttf/bbvasans-mediumitalic.ttf") format("truetype");
+	font-stretch: normal;
+	font-style: italic;
+	font-weight: 500;
+}
+@font-face {
+	font-family: "bbvasans-semibold";
+	src: 
+	url("../fonts/woff/bbvasans-semibold.woff") format("woff"),
+	url("../fonts/ttf/bbvasans-semibold.ttf") format("truetype");
+	font-stretch: normal;
+	font-style: normal;
+	font-weight: 600;
+}

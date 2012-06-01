@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Forum</title>
+
+
+{header}
+
+    <script type="text/javascript">
+	
+	var toreply = "{site_url}";
+	
+    </script>
+    
+    <script type="text/javascript" src="template/js/jquery.js"></script>
+    <script type="text/javascript" src="template/js/general.js"></script>
+    <script type="text/javascript" src="template/js/blockUI.js"></script>
+    
+    <script>
+	
+	$(document).ready(function() {
+	  
+		$(".tabs a").click(function(){
+			
+			$(".tabs .current").removeClass("current");
+			
+			$(this).parent().addClass("current");
+			
+			$(".bloque p").css("display","none");
+			
+			$("#"+$(this).attr('rel')).css("display","block");
+			
+		});
+		
+		var id = $(".tabs .current a").attr('rel');
+		
+		$("#"+id).css('display','block');
+	  
+	});
+	
+    </script>
+
+
+<![if !IE]>
+<link rel="stylesheet" type="text/css" href="template/themes/style.css" /> 
+<![endif]>
+
+<!--[if IE]>
+<link href="template/themes/style-ie.css" rel="stylesheet" type="text/css" />
+<![endif]--> 
+
+</head>
+
+<body>
+  
+<div id="question" style="display:none; cursor: default"> 
+        <h1>Would you like to contine?.</h1> 
+        <input type="button" id="yes" value="Yes" /> 
+        <input type="button" id="no" value="No" /> 
+</div> 
+
+<div class="container_12">
+  <div class="grid_9" id="headerLogo"></div>
+  <div class="grid_3" id="topNavInfo">
+  	<div>
+    	<div class="left" id="fecha"> {current_date} </div>
+        <div class="right">
+        	<ul id="topMenu">
+           	  <li class="home"><a href="../"></a></li>
+              <li class="contacto"><a href="mailto:HRHelp@bbvacompass.com"></a></li>
+              <li class="salir"><a href="../Autenticacion/DoLogout.html"></a></li>
+            </ul>
+        </div>
+        <div id="userInfo" class="left">
+            <img src="template/themes/img/miniicon-user.png" width="14" height="16" align="absmiddle" class="left" />
+            <div class="left" id="welcome">Welcome {username}<br /> </div>
+        </div>
+    </div>
+  </div>
+  <div class="clear"></div>
+  
+	<div class="grid_4" id="sidebar">
+		
+		<div class="tabs">
+			<ul>
+				<li class="current"><a href="#" rel="tab-1">Most viewed</a></li>
+				<li><a href="#" rel="tab-2">Most commented on</a></li>
+			</ul>
+		</div>
+		<div class="bloque">
+			<p id="tab-2">
+				{most_visited}
+			</p>
+			<p id="tab-1">
+				{most_commented}
+			</p>
+		</div>
+
+		{sidebar}
+		
+		
+		
+		
+	</div>
+	
+    <div class="grid_8" id="content">
+    
+            
+          
+            
+    {posts}
+    
+    </div>
+</div>
+
+</body>
+</html>
