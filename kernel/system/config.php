@@ -8,24 +8,20 @@ $wb = (object) array();
 
 $windbloom->sys = array(
 					  
-	"url" => 'http://4u.zeickan.com/forums/',
+	"url" => 'http://windbloom.com/',
         
-        #"path" => '/Applications/XAMPP/htdocs/luna/',
-        "path" => getcwd().'/',
+    #"path" => '/Applications/XAMPP/htdocs/luna/',
+    "path" => getcwd().'/',
         
 	"theme" => 'theme/beta/',
         
 	"upload" => 'uploads/',
         
 	"kernel" => 'kernel/',
-        
-	"sys_images" => 'sys_images/',
-        
-	"avatar" => 'avatar/',
-        
+            
 	"lang" => 'lang/',
         
-	"deflang" => 'es'
+	"lang" => 'es'
 	
 );
 
@@ -61,8 +57,11 @@ define("DBHOST","localhost");
 
 define("DBUSER","dev");
 
-define("DBPASS","qwe8521z_dev");
+define("DBPASS","qwe8521z");
 
-define("DBNAME","dev_aventurandome");
+define("DBNAME","windbloom");
+
+
+# Iniciamos...
 
 include_once("init.php");
