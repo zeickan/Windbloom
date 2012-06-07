@@ -4,7 +4,7 @@
  * class forum
  */
 
-class main extends template {
+class main extends template  {
     
     /*
      * Constructor 
@@ -29,7 +29,7 @@ class main extends template {
     	# Insertamos un Hola mundo en {hello_world}
     	# Ejem: $this->STRING = {STRING}
 
-    	$this->hello_world = 'Hola mundo';
+    	$this->hello_world = models::dex('Hola mundo');
 
     	# Insertamos una variable en la plantilla con el resultado de una función
 
@@ -64,7 +64,7 @@ class main extends template {
 	
 		$temp = '';
 		
-		    $template = $this->getTemplate2Loop('comment','loop');
+		    $template = $this->getTemplate2Loop('default','loop');
 		    
 		    $rgex = array( "name", "email" );
 

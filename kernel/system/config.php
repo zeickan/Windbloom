@@ -30,9 +30,13 @@ $windbloom->sys = array(
 $windbloom->login = array(
 	
 	"user_cookie" => 'user',
+
 	"pass_cookie" => 'pass',
+
 	"domain" => 'localhost',
+
 	"path" => '/',
+	
 	"expire" => time()+7776000
 	
 );
