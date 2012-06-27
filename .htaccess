@@ -1,10 +1,27 @@
-Options +Indexes
+Options -Indexes
 
 RewriteEngine on
 
+# Lightbox
+
+RewriteRule (.*)/lightbox-btn-close.gif$ template/escort/images/lightbox-btn-close.gif
+RewriteRule (.*)/lightbox-btn-next.gif$ template/escort/images/lightbox-btn-next.gif
+RewriteRule (.*)/lightbox-btn-prev.gif$ template/escort/images/lightbox-btn-prev.gif
+RewriteRule (.*)/lightbox-ico-loading.gif$ template/escort/images/lightbox-ico-loading.gif
+
+# Control Panel
+
 RewriteRule admin/$ index.php?app=admin
-RewriteRule admin/([^/'<>;]+)$ index.php?app=admin&$1
-RewriteRule admin/([a-zA-Z0-9_-]+)/$ index.php?app=admin&sec=$1
+RewriteRule admin/([a-zA-Z0-9_-]+).html$ index.php?app=admin&acc=$1
+RewriteRule admin/([a-zA-Z0-9_-]+).html@(.*)$ index.php?app=admin&acc=$1&$2
+
+# JSON
+
+RewriteRule ([a-zA-Z0-9_-]+).json@(.*)$ index.php?app=json&acc=$1&$2
+RewriteRule ([a-zA-Z0-9_-]+).json$ index.php?app=json&acc=$1
+
+
+
 
 # RewriteRule pag/([0-9]+)/([^/])$ index.php?pag=$1&$2
 # RewriteRule ([a-zA-Z0-9_]+)/([a-zA-Z0-9_-]+)$ index.php?app=simple&sec=$1&reg=$2

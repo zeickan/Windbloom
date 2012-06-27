@@ -1,0 +1,17 @@
+	<li>
+		<a href="{url_app}" class="nav-top-item no-submenu"> <!-- Add the class "no-submenu" to menu items with no sub menu -->
+			Dashboard
+		</a>       
+	</li>
+	
+	<li> 
+		<a href="#" class="nav-top-item current"> <!-- Add the class "current" to current menu item -->
+		Clientes
+		</a>
+		<ul>
+			<li><a {current_new} href="create.html">Nuevo cliente</a></li>
+			<li><a {current_manager} href="manager.html">Administrar clientes</a></li> <!-- Add class "current" to sub menu items also -->
+		</ul>
+	</li>
+	
+	

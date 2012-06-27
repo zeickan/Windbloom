@@ -5,6 +5,34 @@
 	<meta charset="UTF-8" />
 
 	{header}
+	
+	<!-- jQuery -->
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+	
+	<!-- required plugins -->
+	<script type="text/javascript" src="static/js/date.js"></script>
+
+	<!-- jquery.datePicker.js -->
+	<script type="text/javascript" src="static/js/jquery/jquery.datepicker.js"></script>
+	
+	<!-- page specific scripts -->
+	<script type="text/javascript" charset="utf-8">
+		
+		$(document).ready(function() {
+		  $('.date-pick').datePicker({autoFocusNextInput: true});
+		});
+		
+	</script>
+	
+	<!-- datePicker required styles -->
+	<link rel="stylesheet" type="text/css" media="screen" href="static/css/jquery/datePicker.css">
+	
+	<!-- page specific styles -->
+	<link rel="stylesheet" type="text/css" media="screen" href="static/css/datePicker.css">
+        
+
+
+		
 
 </head>
 
@@ -17,6 +45,22 @@
 	<div id="block">
 		{bloque}
 	</div>
+	
+	<form name="chooseDateForm" id="chooseDateForm" action="#">
+		
+	<ol>
+		<li>
+			<label class="chooseDateForm" for="date1">Date 1:</label>
+			<input name="date1" id="date1" class="date-pick" />
+		</li>
+		<li>
+			<label for="date2">Date 2:</label>
+			<input name="date2" id="date2" class="date-pick" />
+		</li>
+		
+	</ol>
+	</form>
+
 
 </body>
 </html>

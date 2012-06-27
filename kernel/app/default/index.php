@@ -12,10 +12,10 @@ class main extends template  {
      */
     
     function __construct() {
+	    
+	session_start();
 	
-		global $windbloom;
-        
-        session_start();
+	global $windbloom;
         
     }
     
@@ -62,21 +62,21 @@ class main extends template  {
     
     function block(){
 	
-		$temp = '';
+	    $temp = '';
+	    
+		$template = $this->getTemplate2Loop('default','loop');
 		
-		    $template = $this->getTemplate2Loop('default','loop');
-		    
-		    $rgex = array( "name", "email" );
+		$rgex = array( "name", "email" );
 
-		    $array = array( 
-		    				array( "name" => "Andros" , "email" => "andros@pixblob.com") 
-		    );
-		    
-		    $part = $this->get_template_part($array,$rgex,$template);
-		    
-		    $temp.= $part;
+		$array = array( 
+					    array( "name" => "Andros" , "email" => "andros@pixblob.com") 
+		);
 		
-		return $temp;
+		$part = $this->get_template_part($array,$rgex,$template);
+		
+		$temp.= $part;
+	    
+	    return $temp;
 	
     }
     

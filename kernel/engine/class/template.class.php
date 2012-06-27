@@ -24,6 +24,44 @@ class template {
 
     }
     
+    protected function addMsg($msg = '',$type = 'error'){
+
+        return '<div class="'.$type.'">'.$msg.'</div>';
+    
+    }
+    
+    protected function addJavaScript($file,$path = "template/js/",$comment = ''){
+        
+        if(  strstr($file,"http://") || strstr($file,"https://") ):
+        
+            $js = '<script type="text/javascript" src="'.$file.'"></script>';
+        
+        else:
+        
+            $js = '<script type="text/javascript" src="'.$this->framework->sys[url].$path.$file.'"></script>';
+        
+        endif;
+        
+        return $js;
+        
+    }
+    
+    protected function addStyleSheet($file,$path = "template/css/",$media = 'all'){
+        
+        if(  strstr($file,"http://") || strstr($file,"https://") ):
+        
+            $css = '<link rel="stylesheet" href="'.$file.'" type="text/css" media="'.$media.'" />';
+        
+        else:
+        
+            $css = '<link rel="stylesheet" href="'.$this->framework->sys[url].$path.$file.'" type="text/css" media="'.$media.'" />';
+        
+        endif;
+        
+        return $css;
+        
+    }
+    
     protected function header(){
         
         $title = '<title>'.$this->title.'</title>'."\n    ";
@@ -35,7 +73,7 @@ class template {
     
     protected function copyright(){
         
-        echo"&copy; 2012 Windbloom 2.0 REV 1 Luna";
+        return "&copy; 2012 Windbloom 2.0 REV 1 Luna";
         
     }
     
@@ -79,9 +117,9 @@ class template {
         
     }
     
-    protected function readfiletemplate($file){       
+    protected function readfiletemplate($file,$bool = false){       
         
-        $template = $this->framework->sys[path].'template/'.$file;
+        $template = $this->framework->sys[path].'template/'.$this->template_path.$file;
         
         if( file_exists( $template ) ):        
         
@@ -110,7 +148,9 @@ class template {
                 
             }           
             
+            if( !$bool ):
             $this->returnTemplate = $f;            
+            endif;            
             
             return $f;
         
@@ -118,3 +158,72 @@ class template {
         
     }
 }
+
+
+
+class HTML {
+    
+
+    public function TAG( $content, $tag, $attr = NULL, $doble = true ){
+
+        if( $attr ):
+            
+            $atr = array();
+
+            foreach ($attr as $key => $value) {
+                
+                $atr[] = $key.'="'.$value.'"';
+
+            }
+
+            $atributes = " ".join(" ",$atr);
+
+        endif;
+
+        $end = $doble?'</'.$tag.'>':'';
+
+        return '<'.$tag.''.$atributes.'>'.$content.$end;
+
+    }
+    
+    public function OPTION( $array, $id = 0, $val = 1 ){
+            
+        $return = array();
+            
+        if( $array ):
+        
+            foreach($array as $key => $value){
+                
+                $return[] = '<option value="'.utf8_encode($value[$id]).'">'.utf8_encode($value[$val]).'</option>';
+                
+            }
+        
+        endif;
+        
+        return join("\n",$return);
+        
+    }
+
+}
+
+
+
+
+class Request {
+    
+    public function HttpRedirect($url){
+
+        header("location: ".$url);
+
+    }
+    
+}
+
+
+
+
+
+
+
+
+
