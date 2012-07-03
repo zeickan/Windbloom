@@ -151,6 +151,6 @@ if( method_exists($theme,$__acc) ){
     
 } else {
 
-error_600('Framework error 1000.templateClass');    
+error_600( 'Framework error 1000.templateClass' );
     
 }

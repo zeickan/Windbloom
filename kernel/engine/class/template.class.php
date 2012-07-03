@@ -8,6 +8,8 @@ class template {
     
     var $title;
     
+    var $framework;
+    
     
     /*
      * __construct()
@@ -16,11 +18,11 @@ class template {
     
     function __construct() {
         
-        global $windbloom;        
+        global $windbloom;       
         
         $this->framework = $windbloom;
         
-        $this->title = $title;
+        $this->title = $title;        
 
     }
     
@@ -30,17 +32,25 @@ class template {
     
     }
     
-    protected function addJavaScript($file,$path = "template/js/",$comment = ''){
+    protected function addJavaScript($file,$path = "template/js/",$specific = NULL){
         
-        if(  strstr($file,"http://") || strstr($file,"https://") ):
+        if( is_null($specific) ){
         
-            $js = '<script type="text/javascript" src="'.$file.'"></script>';
+            if(  strstr($file,"http://") || strstr($file,"https://") ):
+            
+                $js = '<script type="text/javascript" src="'.$file.'"></script>';
+            
+            else:
+            
+                $js = '<script type="text/javascript" src="'.$this->url_site.$path.$file.'"></script>';
+            
+            endif;
         
-        else:
-        
-            $js = '<script type="text/javascript" src="'.$this->framework->sys[url].$path.$file.'"></script>';
-        
-        endif;
+        } else {
+            
+            $js = '<script type="text/javascript">'.$specific.'</script>';
+            
+        }
         
         return $js;
         
@@ -54,7 +64,7 @@ class template {
         
         else:
         
-            $css = '<link rel="stylesheet" href="'.$this->framework->sys[url].$path.$file.'" type="text/css" media="'.$media.'" />';
+            $css = '<link rel="stylesheet" href="'.$this->url_site.$path.$file.'" type="text/css" media="'.$media.'" />';
         
         endif;
         
@@ -157,6 +167,36 @@ class template {
         endif;
         
     }
+}
+
+class GET {
+    
+    public function ACTIONS(){
+        
+        $get = $_GET;
+        
+        $temp = (object) array();
+        
+        unset($get['app']);
+        unset($get['acc']);
+        
+        if( get ):
+            
+            foreach($get as $key => $value){
+                
+                $key = alphanumeric($key,'-_.,|');
+                
+                $value = alphanumeric($value,'-_.,|');
+                
+                $temp->$key = $value;
+                
+            }           
+            
+            return $temp;
+        
+        endif;
+    }
+    
 }
 
 

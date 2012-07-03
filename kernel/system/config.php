@@ -10,8 +10,8 @@ $windbloom->sys = array(
 					  
 	"url" => 'http://127.0.0.1/Windbloom-framework/',
         
-    #"path" => '/Applications/XAMPP/htdocs/luna/',
-    "path" => getcwd().'/',
+        #"path" => '/Applications/XAMPP/htdocs/luna/',
+        "path" => getcwd().'/',
         
 	"theme" => 'theme/beta/',
         

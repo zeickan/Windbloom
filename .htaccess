@@ -11,9 +11,13 @@ RewriteRule (.*)/lightbox-ico-loading.gif$ template/escort/images/lightbox-ico-l
 
 # Control Panel
 
-RewriteRule admin/$ index.php?app=admin
-RewriteRule admin/([a-zA-Z0-9_-]+).html$ index.php?app=admin&acc=$1
-RewriteRule admin/([a-zA-Z0-9_-]+).html@(.*)$ index.php?app=admin&acc=$1&$2
+# RewriteRule admin/$ index.php?app=admin
+# RewriteRule admin/([a-zA-Z0-9_-]+).html$ index.php?app=admin&acc=$1
+# RewriteRule admin/([a-zA-Z0-9_-]+).html@(.*)$ index.php?app=admin&acc=$1&$2
+
+RewriteRule ([a-zA-Z0-9_-]+)/$ index.php?app=$1
+RewriteRule ([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+).html$ index.php?app=$1&acc=$2
+RewriteRule ([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+).html@(.*)$ index.php?app=$1&acc=$2&$3
 
 # JSON
 
