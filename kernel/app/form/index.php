@@ -36,7 +36,11 @@ class form  extends template  {
         $this->template_url = $windbloom->sys['url'].'template/'.$this->template_path;
         
         $this->title = ':D';
-                
+	
+	# Form vars template
+	
+	$this->msg_form = '';
+	
         # GetHeader, GetCopyright, GetSidebar
         
         $this->header = array('function' => 'header');
@@ -63,7 +67,7 @@ class form  extends template  {
         $item[] = $this->addJavaScript('date.js',$jsPath);        
         $item[] = $this->addJavaScript('jquery/jquery.datepicker.js',$jsPath);
         
-        $specificDate = "$(document).ready(function() { $('.date-pick').datePicker({autoFocusNextInput: true}); });";
+        $specificDate = "$(document).ready(function() { $('.date-pick').datePicker({autoFocusNextInput: true} ); });";
         
         $item[] = $this->addJavaScript('','',$specificDate);
 
@@ -135,7 +139,7 @@ class form  extends template  {
     
     /* FORMATO */
     
-    protected function getFieldByType($type,$title = '',$special = false){
+    protected function getFieldByType($type,$title = '',$special = false,$default = false){
         
         $name = 'name="'.$title.'" id="'.$title.'"';
         
@@ -153,7 +157,7 @@ class form  extends template  {
             
             elseif( $type[0] == "date" ):
             
-                $field = '<input '.$name.' type="text" size="8" class="date-pick" value="'.$_POST[$title].'" />';
+                $field = '<input '.$name.' type="text" size="8" class="date-pick" value="'.$_POST[$title].'" readonly="readonly" />';
                 
             elseif( $type[0] == "tinyint" ):
             
@@ -162,8 +166,15 @@ class form  extends template  {
             elseif( $type[0] == "enum" ):
                 
                 for($i = 1; $i < count($type); $i++ ){
+		    
+		    if( $default == $type[$i] ):
+			$checked = 'checked="checked"';
+		    else:
+			$checked = '';
+		    endif;
+		    
                     
-                    $field.= '<input '.$name.' type="radio" size="8" value="'.$type[$i].'" /> '.$type[$i];
+                    $field.= '<input '.$name.' type="radio" size="8" value="'.$type[$i].'" '.$checked.' /> '.$type[$i];
                     
                 }
                
@@ -186,10 +197,6 @@ class form  extends template  {
         # Tabla a armar
 
         $pdo->add_consult("DESC demo_contrato");
-        
-        $pdo->add_consult("SELECT * FROM tdu_state");
-        
-        $pdo->add_consult("SELECT * FROM tdu_type");
        
         $query = $pdo->query();
 
@@ -233,8 +240,9 @@ class form  extends template  {
             
             preg_match_all("@[A-Za-z0-9+]([A-Za-z0-9 ]+)@i",$value['Type'],$type);
             
-            $title = $value['Field'];            
-            
+            $title = $value['Field'];
+	    
+	    
             $diferent = array();
             
             if( $title == 'tdu'){
@@ -266,69 +274,202 @@ class form  extends template  {
 	
     }
     
-    protected function save(){
-	
+    protected function save($table = 'demo_contrato'){	
 	$pdo = new db_pdo();
 	
 	if( $_POST ):
 	
 	    $valid = true;
 	
-	    foreach($_POST as $key => $value){
-		
+	    foreach($_POST as $key => $value){		
 		if( empty($value) ){
-		    
-		    $valid = false;
-		    
-		    echo 'asd';
-		    
-		    break;
-		    
-		} else {
-		
-		    echo "$key - $value <br> ";
-		
-		}
-		
+		    $valid = false;		    
+		    break;		    
+		}		
 	    }
 	    
-	    if( $valid ){
-	    
-		if( $pdo->insert("demo_contrato", $_POST ) ){
-    
-		    echo"EXITO";
-		    
+	    if( $valid ){	    
+		if( $pdo->insert($table, $_POST ) ){    		    
+		    return true;	    
 		} else {
-		
-		    echo"ERROR: ". $pdo->error[2];
-		
-		}
-	    
-	    }
-	
+		    $this->error_msg = $pdo->error[2];		    
+		    return false; 		
+		}	    
+	    } else {		
+		$this->error_msg = 'Incomplete form';		
+		return false;		
+	    }	
 	endif;
-	
-	
-	
-	return 'ad';
-	
     }
     
     public function formato(){
 	
 	if( GET::ACTIONS()->action == "save" ):
 	
-	    $this->save();
+	    if( $this->save('demo_contrato') ){
+		
+		$this->msg_form = 'Exito';
+		
+	    } else {
+		
+		$this->msg_form = $this->error_msg;
+		
+	    }
 	
 	endif;
-    
+	
         $this->forma = $this->genFormByTable();
         
         
         # Cargar plantilla
-
+        
         $this->readfiletemplate("index.form.html");
         
+    }
+    
+    public function ahorro(){
+	
+	if( GET::ACTIONS()->action == "save" ):
+	
+	    if( $this->save('redAhorro') ){
+		
+		$this->msg_form = 'Exito';
+		
+	    } else {
+		
+		$this->msg_form = $this->error_msg;
+		
+	    }
+	
+	endif;
+	
+        $this->forma = $this->genFormByTable2();
+        
+        
+        # Cargar plantilla
+        
+        $this->readfiletemplate("index.form.html");
+        
+    }
+    
+    protected function genFormByTable2(){
+	
+	$pdo = new db_pdo();
+        
+        # Tabla a armar
+
+        $pdo->add_consult("DESC redAhorro");        
+       
+        $query = $pdo->query();
+	
+        $form = array();
+        
+        #echo"<pre>".print_r($query[0],1)."</pre>";
+        
+        $temp = array();
+	
+	$names = array( 'id' => 'ID',
+		        'fecha' => 'Fecha',
+			'responsableConvenio' => 'Responsable del convenio',
+			'nombreComercio' => 'Nombre del comercio',
+			'firmaComercio' => 'Quien firma en el contrato',
+			'puestoComercio' => 'Puesto',
+			'emailComercio' => 'Correo de contacto',
+			'telefonoComercio' => 'Teléfono de contacto',
+			'nombreRepresentante' => 'Nombre del representante',
+			'puestoRepresentante' => 'Puesto del representante',
+			'emailRepresentante' => 'Correo del representante',
+			'telefonoRepresentante' => 'Teléfono del responsable',
+			'fechaFirma' => 'Fecha en la que se firma',
+			'fechaEfectivo' => 'Fecha cuando hacer efectivo el movimiento',
+			'fechaVencimiento' => 'Fecha de vencimiento',
+			'tipoBeneficio' => 'Tipo de beneficio',
+			'inicioBeneficio' => 'Fecha en la que inicia',
+			'venceBeneficio' => 'Fecha en la que vence',
+			'consumoMinimo' => 'Consumo minimo',
+			'tdu' => 'TDU+',
+			'descripcion' => 'Descripción',
+			'restricciones' => 'Restricciones',
+			'programaAplica' => 'Programa en el que aplica',
+			'nombreRecibe' => 'Nombre de quien recibe',
+			'nombreAuth' => 'Nombre de autorización',
+			'nombreValid' => 'Nombre de validacion de datos',
+			
+			'razonSocial' => 'Razón social',
+			'rfc' => 'R.F.C.',
+			'movimiento' => 'Movimiento',
+			'giro' => 'Giro',
+			'tipo' => 'Tipo',
+			'ubicacionLogo' => 'Ubicación del logo',
+			'web' => 'Página web',
+			'calificacion' => 'Calificación',
+			'clasificacionEdad' => 'Clasificación por edad',
+			'sexo' => 'Sexo',
+			'edad' => 'Edad',
+			'cuentaPromedio' => 'Cuenta promedio',
+			'fechaEntrega' => 'Fecha de entrega',
+			'medios' => 'Medios',
+			'descuentoEfectivo' => 'Descuentos en efectivo',
+			'descuentoTC' => 'Descuentos en T.C',
+			'descripcionBeneficio' => 'Descripción del beneficio',			
+			'restriccionBeneficio' => 'Restricciones',
+			'responsableNombre' => 'Responsable del convenio (TDU)',
+			'quienFirma' => 'Quien firma en el contrato',
+			'puestoFirma' => 'Puesto',
+			'emailFirma' => 'Correo electrónico',
+			'telefonoFirma' => 'Teléfono de contacto',
+			'nombreLegal' => 'Nombre del representante legal y/o quien autoriza el convenio',
+			'puestoLegal' => 'Puesto',
+			'emailLegal' => 'Email',
+			'telefonoLegal' => 'Teléfono de quien autoriza',
+			'fechaConvenio' => 'Fecha que se firmo el contrato',
+			'fechaInicia' => 'A partir de cuando hacer efectivo el movimiento',
+			'fechaVence' => 'Fecha de vencimiento',
+		
+			'' => ''
+			
+		    );
+	
+	$hidden = array( 'id' => true );
+         
+        foreach ($query[0] as $key => $value) {
+            
+            preg_match_all("@[A-Za-z0-9+]([A-Za-z0-9 ]+)@i",$value['Type'],$type);
+            
+            $title = $value['Field'];
+	    
+	    $default = $value['Default'];
+            
+            
+            $diferent = array();
+            
+            if( $title == 'tdu'){
+                $array = array( "tdu" => "TDU Basica" );
+            } else {
+                $array = NULL;
+            }
+            
+	    $name = $names[$title]?$names[$title]:$title;
+	    
+	    if( $hidden[$title] ):
+		#Hiiden Field
+	    else:
+	    
+		$temp[] = array( 'name' => $name  , "box" => $this->getFieldByType($type[0],$title,false, $default) );
+	    
+	    endif;            
+            
+        }
+	
+	$template = $this->getTemplate2Loop('form','loop');
+	
+	$rgex = array( "name", "box" );
+	
+	$part = $this->get_template_part($temp,$rgex,$template);
+        
+        return $part;
+	
+	
     }
     
 }
