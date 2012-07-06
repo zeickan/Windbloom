@@ -217,11 +217,17 @@ function dateFormat($timestamp,$format = "D M J",$es = true){
 	
 }
 	
-function error_600($def = ''){
+function error_600($def = '', $description = false){
 	
 	header('"HTTP/1.0 500 Internal Server Error');
 	
 	$msg = $def?'<h1>'.$def.'</h1>':'';
+	
+	$msg.= $description?'<h3>'.$description:'</h3>';
+	
+	$msg.= '<hr/>';
+	
+	$msg.= 'Powered by Windblond Framework 2.0';
 	
 	echo $msg;
 	

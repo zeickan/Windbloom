@@ -9,6 +9,10 @@ body{
 	background-color: #E2ECEE;
 }
 
+.clear {
+	clear: both;
+}
+
 input, textarea {
     background: #F1F1F1;
     padding: 8px;
@@ -40,8 +44,27 @@ input.normal-input {
 
 
 input.long-input {
-    width:500px;
+    width:485px;
+	margin: 0 auto;
 }
+
+input.user {
+	background:#F1F1F1 url(../images/icons/user.png) no-repeat 8px 7px;
+	padding-left: 30px;
+	width: 205px !important;
+	margin: 10px auto !important;
+	float: left;
+}
+
+input.pass {
+	background:#F1F1F1 url(../images/icons/key.png) no-repeat 8px 7px;
+	padding-left: 30px;
+	width: 205px !important;
+	margin: 10px auto !important;
+	float: right;
+}
+
+/* CONTACTO */
 
 a.dp-choose-date {
 	padding: 0;
@@ -53,6 +76,7 @@ a.dp-choose-date {
 }
 
 .contacto{
+	display: block;
 	border: 1px solid #CED5D7;
 	border-radius: 6px;
 	padding: 45px 45px 20px;
@@ -68,11 +92,11 @@ a.dp-choose-date {
 .contacto div{
 	margin-bottom: 15px;
 }
-.contacto input[type='text'], .contacto textarea{
+.contacto input[type='text'], .contacto input[type='password'], .contacto textarea{
 	resize: none;
 	box-shadow:0 0 0 3px #EEF5F7;
 }
-.contacto input[type='text']:focus, .contacto textarea:focus{
+.contacto input[type='text']:focus, .contacto input[type='password']:focus, .contacto textarea:focus{
 	outline: none;
 	box-shadow:0 0 0 3px #dde9ec;
 }
@@ -118,3 +142,4 @@ a.dp-choose-date {
     position: absolute;
     top: 5px;
 }
+

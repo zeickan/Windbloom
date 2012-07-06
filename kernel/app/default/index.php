@@ -15,8 +15,52 @@ class main extends template  {
 	    
 	session_start();
 	
-	global $windbloom;
+	global $user;
         
+        global $windbloom;
+        
+        # Configuración del Framework
+        
+        $this->framework = $windbloom;
+        
+        $this->user = $user;
+        
+        # Variables para la plantilla
+        
+        $this->msg = '';
+        
+        $this->template_path = "formato/";
+        
+        $this->template_url = $windbloom->sys['url'].'template/'.$this->template_path;
+        
+        $this->url_site = $windbloom->sys['url'];
+        
+        $this->url_app = $this->url_site.'formato/';
+        
+        $this->self_file = alphanumeric($_GET['acc']).".html";        
+        
+        # Textos para la plantilla
+        
+        $this->username = 'Username';
+        
+        $this->title = "Login";
+        
+        # GetHeader, GetCopyright, GetSidebar
+        
+        $this->header = array('function' => 'header');
+        
+    }
+    
+    protected function header(){
+	    
+	    $cssPath = "static/css/";
+	    $item[] = $this->AddStyleSheet("reset.css",$cssPath,'all');
+	    $item[] = $this->AddStyleSheet("form.css",$cssPath,'all');
+	    $item[] = $this->AddStyleSheet("jquery/datePicker.css",$cssPath,'screen');
+	    $item[] = $this->AddStyleSheet("datePicker.css",$cssPath,'screen');        
+    
+	    return join("\n    ",$item);
+	    
     }
     
     /*
@@ -29,7 +73,9 @@ class main extends template  {
     	# Insertamos un Hola mundo en {hello_world}
     	# Ejem: $this->STRING = {STRING}
 
-    	$this->hello_world = models::dex('Hola mundo');
+    	#$this->hello_world = models::dex('Hola mundo');
+    	
+	$this->action_form = 'accounts/login';
 
     	# Insertamos una variable en la plantilla con el resultado de una función
 
@@ -37,7 +83,7 @@ class main extends template  {
 
     	# Titulo de la página
 
-    	$this->title = "index method:main default";
+    	$this->title.= " Identificate";
 	
 		# Funciones de remplazo: header function
         
@@ -45,7 +91,7 @@ class main extends template  {
         
         # Cargar plantilla
 
-        $this->readfiletemplate("index.default.html");
+        $this->readfiletemplate("login.form.html");
 	
     }
     

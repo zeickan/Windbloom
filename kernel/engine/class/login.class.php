@@ -1,6 +1,6 @@
 <?php
 
-class login {
+class WB_LOGIN {
 	
 var $is_login;
 
@@ -145,6 +145,7 @@ var $valid;
 	
 }
 
+/*
 
 $wb->login = new login();
 
@@ -200,4 +201,4 @@ $is_login = $wb->login->auth();
 
 }
 
-?>
+*/

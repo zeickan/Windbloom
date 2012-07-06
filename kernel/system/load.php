@@ -129,6 +129,7 @@ else:
     if( $app->models ) include_once($app->models);   
 
     include_once( $app->file );
+    
 endif;
 
 # Nombre de la clase
@@ -151,6 +152,6 @@ if( method_exists($theme,$__acc) ){
     
 } else {
 
-error_600( 'Framework error 1000.templateClass' );
+    error_600( 'Framework error 1000.templateClass' );
     
 }
