@@ -234,7 +234,7 @@ class form  extends template  {
 			'nombreValid' => 'Nombre de validacion de datos'
 		    );
 	
-	$hidden = array( 'id' => true );
+	$hidden = array( 'id' => true , 'user_id' => true , 'tdu' => true );
          
         foreach ($query[0] as $key => $value) {
             
@@ -280,6 +280,10 @@ class form  extends template  {
 	if( $_POST ):
 	
 	    $valid = true;
+	    
+	    session_start();
+	    
+	    $_POST['user_id'] = $_SESSION['user']['id'];
 	
 	    foreach($_POST as $key => $value){		
 		if( empty($value) ){
@@ -318,12 +322,37 @@ class form  extends template  {
 	
 	endif;
 	
-        $this->forma = $this->genFormByTable();
+	session_start();
+	
+	$userid = $_SESSION['user']['id'];
+	
+	$pdo = new db_pdo();
+       
+	$pdo->add_consult("SELECT id FROM demo_contrato WHERE user_id='$userid' LIMIT 1");
+
+	$query = $pdo->query();
+	
+	if( $query[0][0]['id'] ):
+	
+	    $this->forma = 'Ya enviaste tu negocio.';
+	    
+	    # Cargar plantilla
+	    
+	    $this->readfiletemplate("error.form.html");
+	    
+	
+	else:
+	
+	    $this->forma = $this->genFormByTable();
+	    
+	    # Cargar plantilla
+	    
+	    $this->readfiletemplate("index.form.html");
+	    
+	endif;
         
         
-        # Cargar plantilla
         
-        $this->readfiletemplate("index.form.html");
         
     }
     

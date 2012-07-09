@@ -30,6 +30,8 @@ class accounts extends template  {
         $this->username = 'Username';
         
         $this->title = "Login";
+	
+	$this->crypt = 'W1nD';
         
     }
     
@@ -54,7 +56,35 @@ class accounts extends template  {
     
     public function login(){
 	
-	echo 'asd';
+	if( $_POST ){
+	    
+	    $user = alphanumeric($_POST['usuario'],"_-.");
+	    
+	    $pass = md5($this->crypt."".$_POST['contrasena']);
+	    
+	    $pdo = new db_pdo();
+	   
+	    $pdo->add_consult("SELECT * FROM users WHERE user='$user' AND pass='$pass' LIMIT 1");
+	   
+	    $query = $pdo->query();
+	    
+	    if( $query[0][0][id]):
+	    
+		session_start();
+		
+		$_SESSION['user'] = $query[0][0];
+		
+		HTTP::responseToRedirect($this->framework->sys[url]);
+	    
+	    else:
+	    
+		$error = array( "error" => 'invalid' );
+	    
+		HTTP::responseToRedirect($this->framework->sys[url],$error);
+	    
+	    endif;
+	    
+	}
 	
     }
     

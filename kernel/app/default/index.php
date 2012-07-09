@@ -74,25 +74,34 @@ class main extends template  {
     	# Ejem: $this->STRING = {STRING}
 
     	#$this->hello_world = models::dex('Hola mundo');
-    	
-	$this->action_form = 'accounts/login';
 
     	# Insertamos una variable en la plantilla con el resultado de una función
 
-    	$this->bloque = array('function' => 'block');
+    	#$this->bloque = array('function' => 'block');
 
-    	# Titulo de la página
-
-    	$this->title.= " Identificate";
+	session_start();
 	
-		# Funciones de remplazo: header function
-        
-        $this->header = array('function' => 'header');
-        
-        # Cargar plantilla
-
-        $this->readfiletemplate("login.form.html");
+	if( $_SESSION['user'] ):
 	
+	    HTTP::responseToRedirect($this->framework->sys['url'].'form/formato.html');
+	
+	else:
+	
+	    $this->action_form = 'accounts/login';
+	
+	    # Titulo de la página
+	    
+	    $this->title.= " Identificate";
+	    
+	    # Funciones de remplazo: header function
+	    
+	    $this->header = array('function' => 'header');
+	    
+	    # Cargar plantilla
+	    
+	    $this->readfiletemplate("login.form.html");
+	    
+	endif;
     }
     
     /*
@@ -115,7 +124,7 @@ class main extends template  {
 		$rgex = array( "name", "email" );
 
 		$array = array( 
-					    array( "name" => "Andros" , "email" => "andros@pixblob.com") 
+			array( "name" => "Andros" , "email" => "andros@pixblob.com") 
 		);
 		
 		$part = $this->get_template_part($array,$rgex,$template);

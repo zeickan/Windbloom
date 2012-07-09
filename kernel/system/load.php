@@ -154,4 +154,6 @@ if( method_exists($theme,$__acc) ){
 
     error_600( 'Framework error 1000.templateClass' );
     
+    echo"<pre>".print_r($_GET,1)."</pre>";
+    
 }

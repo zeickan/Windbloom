@@ -1,5 +1,34 @@
 <?php
 
+class HTTP {
+    
+    public function ResponseToRedirect($http,$ex = false){
+        
+        if($ex){
+            
+            $foo = array();
+            
+            foreach($ex as $key => $value){
+                
+                $foo[] = $key.'='.$value;
+                
+            }
+            
+            $bar = '@'.join("&",$foo);
+            
+        }
+        
+        if($http){
+            
+            header("location: $http".$bar);
+            
+        }
+        
+    }
+    
+}
+
+
 /*
  * class template
  */
