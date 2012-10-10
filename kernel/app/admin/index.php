@@ -206,7 +206,7 @@ class admin extends template {
 
             $grid[] = '<tr>
                 <td><input name="action[]" value="'.$value['id'].'" type="checkbox" /></td>
-                <td>'.$value['title'].'</td>
+                <td>'.model::return_decode($value['title']).'</td>
                 <td>'.model::return_decode($value['state']).'</td>
                 <td>'.model::return_decode($value['city']).'</td>
                 <td>'.model::return_decode($value['address']).'</td>
@@ -247,8 +247,30 @@ class admin extends template {
                 $html[] = HTML::TAG( "&laquo; Anterior", 'a', array( "href" => $this->url_app.'manager.html@pag='.(($pag)-1) , "title" => "Página Anterior") );
                 endif;
             }
+            
+            
+            if( $pag > 5 ):
+            
+                $start = ($pag-4);
+            
+                $PAGES = ($pag+4);
+                
+                if( $PAGES > $pages){
+                    
+                    $PAGES = $pages;
+                    
+                } else {}
+            
+            else:
+                
+                $start = 1;
+                
+                $PAGES = 9;
+            
+            endif;
+            
 
-            for( $i = 1; $i <= $pages ;$i++ ):            
+            for( $i = $start; $i <= $PAGES ;$i++ ):            
             
                 if( $pag == $i ){
                     
@@ -290,7 +312,7 @@ class admin extends template {
         
         $this->title.= ' - Nuevo cliente';
         
-        $this->createForm = array('function' => 'createForma');
+        $this->createForm = array('function' => 'createForm');
         
         $this->readfiletemplate("create.html");
         
@@ -422,7 +444,7 @@ class admin extends template {
         
         # Tabla a armar
 
-        $pdo->add_consult("DESC demo_contrato");
+        $pdo->add_consult("DESC tdu_client");
         
         $pdo->add_consult("SELECT * FROM tdu_state");
         
@@ -431,8 +453,6 @@ class admin extends template {
         $query = $pdo->query();
 
         $form = array();
-        
-        echo"<pre>".print_r($query[0],1)."</pre>";
 
         foreach ($query[0] as $key => $value) {
             # code...
@@ -524,14 +544,21 @@ class admin extends template {
             #  Traducimos los campos (Label)
             
             $name = str_replace(
-                                array( "State","City","Address","Title","Type","Details","Promo","Restrict","Suc" ),
-                                array( "Estado","Ciudad","Municipio","Titulo","Giro del negocio","Detalles","Promoción","Restricciones","Sucursales" ),
+                                array( "State","City","Address","Title","Type","Details","Promo","Restrict","Suc","Field31" ),
+                                array( "Estado","Ciudad","Municipio","Titulo","Giro del negocio","Detalles","Promoción","Restricciones","Sucursales","Restricciones" ),
                                 $name
                                 );
             
-
+            if( strstr($name,"Field") ){
+                
+                #Hidden Field
+                
+               
+            } else {            
             
-            $form[$pos][] = $display?layout::HTML_FORM( FORMS::$FORM( $title, $secn, array_merge($atrib,$diferent) ) , $name ):'';
+                $form[$pos][] = $display?layout::HTML_FORM( FORMS::$FORM( $title, $secn, array_merge($atrib,$diferent) ) , $name ):'';
+            
+            }
         }
 
         # Agregamos un CAMPO manualmente
@@ -562,7 +589,7 @@ class admin extends template {
             
             # CAMPOS OBLIGATORIOS
 
-            if( model::requiredFileds( array( 'tdu_state', 'tdu_city', 'tdu_address', 'tdu_type', 'title', 'tdu_details', 'tdu_suc' ) , $_POST ) ):
+            if( model::requiredFileds( array( 'tdu_state', 'tdu_city', 'tdu_address', 'tdu_type', 'title', 'tdu_suc' ) , $_POST ) ):
                 
                 $pdo = new db_pdo();
                 
@@ -774,6 +801,7 @@ class admin extends template {
         if(  $this->user['name'] == $user && $this->user['pass'] == $pass ){
             
             return true;
+        
         } else {
             
             return false;
@@ -811,6 +839,197 @@ class admin extends template {
 
         header("location: main.html");
 
+    }
+    
+    /* USERS */
+    
+    public function adduser(){
+        
+        if( $_GET[enviar] == "insertar"){
+            
+            $this->insertuser();
+            
+        }
+        
+        
+        
+        $this->get_action = 'insertar';
+        
+        $this->title.= ' - Nuevo usuario';
+        
+        $this->userform = array('function' => 'userform');
+        
+        $this->readfiletemplate("adduser.html");
+        
+    }
+    
+    protected function userform(){
+        
+        # Agregamos un CAMPO manualmente
+        
+        $atrib    = array( "class" => "text-input medium-input" );
+        $diferent = array( "multiple" => "multiple" );
+        
+        $form = array();
+        
+        $form['left'][] = layout::HTML_FORM(FORMS::INPUT( "user", "text", array_merge($atrib,$diferent) ) ,
+                                                          "Usuario" ,
+                                                          "Nombre de usuario",
+                                                          "Solo caracteres alfanumericos","information" );
+        
+        
+        $form['left'][] = layout::HTML_FORM(FORMS::INPUT( "pass", "password", array_merge($atrib,$diferent) ) ,
+                                                          "Contraseña" ,
+                                                          "Contraseña",
+                                                          "Se recomiendan 8 caracteres","information" );
+        
+        $form['left'][] = layout::HTML_FORM(FORMS::INPUT( "mail", "text", array_merge($atrib,$diferent) ) ,
+                                                          "Correo electrónico" ,
+                                                          "Direccion de email",
+                                                          "Debe ser valido","information" );
+        
+        #Agregamos a la columna izquierda
+        
+        return  HTML::TAG( join("\n",$form['left']), 'fieldset', array("class"=>"column-left"))
+                #.HTML::TAG( join("\n",$form['right']), 'fieldset', array("class"=>"column-right"))
+                ;
+        
+    }
+    
+    protected function insertuser(){
+        
+        $this->crypt = 'W1nD';
+        
+        if( $_POST['user'] && $_POST['pass'] && $_POST['mail']){
+            
+            $pdo = new db_pdo();
+            
+            # EJEMPLO DE INSERT CON VALIDACION
+            
+            $user = alphanumeric($_POST['user'],"_-.");
+	    
+	    $pass = md5($this->crypt."".$_POST['pass']);
+	    
+            $mail = alphanumeric($_POST['usuario'],"_@-.");
+	    
+            
+           if( $pdo->insert("users", array( "user" => $user, "pass" => $pass, "email" => $mail  ) ) ){
+               
+               $this->msg = layout::HTML_MSG( 'Felicidades se ha registrado tu entrada correctamente.', 'success');
+               
+           } else {
+           
+                $this->msg = layout::HTML_MSG($pdo->error[2]);;
+           
+           }
+            
+        } else {
+            
+            $this->msg = layout::HTML_MSG('Debes llenar los campos.');
+            
+        }
+        
+    }
+    
+    /* LIST TDU */
+    
+    protected function grida(){
+        
+        $pdo = new db_pdo();
+        
+        /*  PAGINADO */
+        
+        $pdo->add_consult("SELECT id FROM demo_contrato");
+        
+        $total = $pdo->numRows();
+
+        $total = $total[0][0];
+        
+        $this->total = $total;
+        
+        # NUMERO DE REGISTROS POR PAGINA
+        
+        $max = 10;
+        
+        $this->max = $max;
+                        
+        $pag = numeric($_GET[pag]);
+            
+        if( empty($pag) ): $def = 0; $pag = 1; else : $def = ($pag - 1) * $max; endif;
+            
+        $pages = ceil($total / $max);
+        
+        /* GRID */
+        
+        $pdo->unset_consult();
+
+        $pdo->add_consult("SELECT * FROM demo_contrato LIMIT $def,$max");
+       
+        $query = $pdo->query();        
+        
+        $grid = array();
+        
+        if( $query[0] ):
+
+        foreach ($query[0] as $key => $value) {
+            
+            $web = $value['web']?'<a href="'.$value[web].'">'.$value[web].'</a>':'';
+
+            $grid[] = '<tr>
+                <td><input name="action[]" value="'.$value['id'].'" type="checkbox" /></td>
+                <td>'. $value['nombreComercio'] .'</td>
+                <td>'. $value['firmaComercio'] .'</td>
+                <td>'. $value['puestoComercio'] .'</td>
+                
+                <td>'. $value['fecha'] .'</td>
+                
+                
+                <td>
+                    <!-- Icons -->
+                     <a href="#" title="Editar" rel="modal"><img src="'.$this->template_url.'resources/images/icons/pencil.png" alt="Editar" /></a>
+                     <a href="manager.html@action=delete&id='.$value[id].'" title="Eliminar"><img src="'.$this->template_url.'resources/images/icons/cross.png" alt="Eliminar" /></a> 
+                </td>
+            </tr>';
+
+        }
+        
+        endif;
+
+        return join("\n",$grid);
+        
+    }
+    
+    public function viewcliente(){
+        
+        
+        @session_start();
+
+        if( $this->valid_login($_SESSION['user']['name'],$_SESSION['user']['pass']) ){
+            
+                if( $_GET['action'] ){
+                    
+                    $act = alphanumeric($_GET['action']);
+                    
+                    if( method_exists($this,$act) ){
+                        
+                        $this->$act();
+                        
+                    }
+                    
+                }
+                
+            $this->grid = array('function' => 'grida');
+            
+            #$this->pagination = array( 'function' => 'pagination' );
+        
+            $this->readfiletemplate("tdulist.html");
+
+        } else {       
+    
+            Request::HttpRedirect( $this->url_app );
+
+        }        
+        
     }
     
 }

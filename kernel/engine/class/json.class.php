@@ -61,7 +61,7 @@ define('IN_ARRAY',6);
  *    @version    1.0
  *    @link       http://cesars.users.phpclasses.org/json 
  */
-class JSON
+class JSONL
 {
      /**
      *    Was parsed with an error?

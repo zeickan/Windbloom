@@ -76,7 +76,7 @@ function rWrite($cadena,$delimitador = "_",$toLower = false,$toUpper = false){
 	
 	$cadena = trim(noAcute(utf8_encode($cadena)));	
 	
-	$rewrite = preg_replace("[^A-Za-z0-9".$delimitador."]", $delimitador, $cadena);
+	$rewrite = preg_replace("@[^A-Za-z0-9".$delimitador."]@i", $delimitador, $cadena);
 	
 	if($toLower){
 		$rewrite = strtolower($rewrite);
@@ -97,6 +97,7 @@ function rWrite($cadena,$delimitador = "_",$toLower = false,$toUpper = false){
 				
 	}
 	
+		
 	return $rewrite;
 
 }

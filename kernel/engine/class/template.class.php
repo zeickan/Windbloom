@@ -1,34 +1,5 @@
 <?php
 
-class HTTP {
-    
-    public function ResponseToRedirect($http,$ex = false){
-        
-        if($ex){
-            
-            $foo = array();
-            
-            foreach($ex as $key => $value){
-                
-                $foo[] = $key.'='.$value;
-                
-            }
-            
-            $bar = '@'.join("&",$foo);
-            
-        }
-        
-        if($http){
-            
-            header("location: $http".$bar);
-            
-        }
-        
-    }
-    
-}
-
-
 /*
  * class template
  */
@@ -51,7 +22,7 @@ class template {
         
         $this->framework = $windbloom;
         
-        $this->title = $title;        
+        $this->title = $title;
 
     }
     
@@ -142,7 +113,7 @@ class template {
                 
                 foreach($replc as $key => $value){
                     
-                    $temp = preg_replace("@(\{$value\})@i",$v[$value],$temp);
+                    $temp = preg_replace("@(\{\{$value\}\})@i",$v[$value],$temp);
                     
                 }
                 
@@ -168,7 +139,7 @@ class template {
                 
                 if( is_string($v) ){                    
                     
-                    $f = preg_replace("@(\{$k\})@i","$v",$f);
+                    $f = preg_replace("@(\{\{$k\}\})@i","$v",$f);
                     
                 } elseif( is_array($v) ){
                     
@@ -178,7 +149,7 @@ class template {
                     
                         $function = $this->$name();
                         
-                        $f = str_replace('{'.$k.'}',$function,$f);
+                        $f = str_replace('{%'.$k.'%}',$function,$f);
                     
                     endif;
                 }
