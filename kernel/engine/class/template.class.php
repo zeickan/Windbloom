@@ -1,34 +1,5 @@
 <?php
 
-class HTTP {
-    
-    public function ResponseToRedirect($http,$ex = false){
-        
-        if($ex){
-            
-            $foo = array();
-            
-            foreach($ex as $key => $value){
-                
-                $foo[] = $key.'='.$value;
-                
-            }
-            
-            $bar = '@'.join("&",$foo);
-            
-        }
-        
-        if($http){
-            
-            header("location: $http".$bar);
-            
-        }
-        
-    }
-    
-}
-
-
 /*
  * class template
  */
@@ -51,7 +22,7 @@ class template {
         
         $this->framework = $windbloom;
         
-        $this->title = $title;        
+        $this->title = $title;
 
     }
     
@@ -118,13 +89,35 @@ class template {
     
     protected function getTemplate2Loop($file,$type){
         
-        $template = $this->framework->sys[path].'template/'.$file.'.'.$type.'.html';
+        $template = $this->framework->sys[path].'template/'.$this->template_path.$file.'.'.$type.'.html';
         
         if( file_exists( $template ) ):        
         
             $f = file_get_contents($template);
             
             return $f;
+
+        else:
+
+            echo"No existe";
+
+        endif;
+        
+    }
+    
+    protected function renderHTMLFile($file){
+        
+        $template = $this->framework->sys[path].'template/'.$this->template_path.$file;
+                
+        if( file_exists( $template ) ):        
+        
+            $f = file_get_contents($template);
+            
+            return $f;
+
+        else:
+
+            echo "No existe";
 
         endif;
         
@@ -142,7 +135,7 @@ class template {
                 
                 foreach($replc as $key => $value){
                     
-                    $temp = preg_replace("@(\{$value\})@i",$v[$value],$temp);
+                    $temp = preg_replace("@(\{\{$value\}\})@i",$v[$value],$temp);
                     
                 }
                 
@@ -168,17 +161,19 @@ class template {
                 
                 if( is_string($v) ){                    
                     
-                    $f = preg_replace("@(\{$k\})@i","$v",$f);
+                    $f = preg_replace("@(\{\{$k\}\})@i","$v",$f);
                     
                 } elseif( is_array($v) ){
                     
                     if( $v['function'] ):
                     
                         $name = $v['function'];
-                    
-                        $function = $this->$name();
                         
-                        $f = str_replace('{'.$k.'}',$function,$f);
+                        $param = $v['param']?$v['param']:NULL;
+                    
+                        $function = $this->$name($param);
+                        
+                        $f = str_replace('{%'.$k.'%}',$function,$f);
                     
                     endif;
                 }
@@ -196,6 +191,58 @@ class template {
         endif;
         
     }
+    
+    /*
+     * function render
+     * @param $request,$file,$bool 
+     */
+    
+    protected function render( $file,$bool = false, $dictionary = NULL ){       
+        
+        $template = $this->framework->sys[path].'template/'.$this->template_path.$file;
+        
+        if( file_exists( $template ) ):        
+        
+            $f = file_get_contents($template);
+            
+            if( !is_null($dictionary) ){
+                
+            
+                while( list($k,$v) = each($dictionary) ){
+                    
+                    if( is_string($v) ){
+
+                        $f = preg_replace("@(\{\{$k\}\})@i","$v",$f);
+                        
+                    } elseif( is_array($v) ){
+                        
+                        if( $v['function'] ):
+                        
+                            $name = $v['function'];
+                            
+                            $param = $v['param']?$v['param']:NULL;
+                        
+                            $function = $this->$name($param);
+                            
+                            $f = str_replace('{%'.$k.'%}',$function,$f);
+                        
+                        endif;
+                    }
+                    
+                }
+            
+            }
+            
+            if( !$bool ):
+                $this->returnTemplate = $f;            
+            endif;            
+            
+            return $f;
+        
+        endif;
+        
+    }
+    
 }
 
 class GET {
@@ -280,9 +327,20 @@ class HTML {
 
 class Request {
     
-    public function HttpRedirect($url){
+    public function HttpRedirect($url,$log = NULL,$prefix = '@'){
+        
+        if($log){
+            $add = array();
+            foreach($log as $k => $v){
+                
+                $add[] = $k."=".$v;
+                
+            }
+            
+            $added = $prefix.join("&",$add);
+        }
 
-        header("location: ".$url);
+        header("location: ".$url.$added);
 
     }
     

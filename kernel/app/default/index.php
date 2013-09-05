@@ -1,25 +1,25 @@
 <?php
 
 /*
- * class forum
+ * class main 
  */
 
-class main extends template  {
+class main  extends models {
     
     /*
-     * Constructor 
-     * Funciones y variables globales del script
+     * __construct()
+     * @param $arg
      */
     
     function __construct() {
-	    
-	session_start();
-	
-	global $user;
+        
+        session_start();
+    	
+    	global $user;
         
         global $windbloom;
         
-        # Configuración del Framework
+        # Configuraci�n del Framework
         
         $this->framework = $windbloom;
         
@@ -27,115 +27,148 @@ class main extends template  {
         
         # Variables para la plantilla
         
+	$this->template_path = "viviendafacil/";
+        
         $this->msg = '';
-        
-        $this->template_path = "formato/";
-        
-        $this->template_url = $windbloom->sys['url'].'template/'.$this->template_path;
         
         $this->url_site = $windbloom->sys['url'];
         
-        $this->url_app = $this->url_site.'formato/';
+        $this->url_app = $this->url_site.'';
         
-        $this->self_file = alphanumeric($_GET['acc']).".html";        
+        $this->self_file = alphanumeric($_GET['acc']).".html";
         
         # Textos para la plantilla
         
-        $this->username = 'Username';
+        $this->title = "Vivienda Facil";
+
+$this->messages = array('function' => 'loadmessages');
+	
+    
         
-        $this->title = "Login";
-        
-        # GetHeader, GetCopyright, GetSidebar
-        
-        $this->header = array('function' => 'header');
-        
+        # GetHeader, GetCopyright, GetSidebar        
+	
+		// Validamos el Login en cada pagina de esta APP
+			session_start();
+		
+		if( !isset($_SESSION['username']) && !empty($_GET['acc'])  ){
+			
+			Request::HttpRedirect( $this->url_site );
+			
+		} else {
+			
+			$this->username = $_SESSION['username']['profile']['name'].' '.$_SESSION['username']['profile']['last_name'];
+			
+			$this->url_logout = $this->url_site.'accounts/logout';
+			
+		}
+	
     }
     
     protected function header(){
-	    
-	    $cssPath = "static/css/";
-	    $item[] = $this->AddStyleSheet("reset.css",$cssPath,'all');
-	    $item[] = $this->AddStyleSheet("form.css",$cssPath,'all');
-	    $item[] = $this->AddStyleSheet("jquery/datePicker.css",$cssPath,'screen');
-	    $item[] = $this->AddStyleSheet("datePicker.css",$cssPath,'screen');        
-    
-	    return join("\n    ",$item);
+
+    	/* Armamos el HEADER DEFAULT */
+
+    	$item[] = parent::header();
+	
+		$cssPath = "static/stylesheets/";
+		$item[] = $this->AddStyleSheet("principal.css",$cssPath,'screen');
+	
+	
+        $jsPath = "static/javascript/";
+        $item[] = $this->addJavaScript('fecha.js',$jsPath);
+		$item[] = $this->addJavaScript('redireccionar.js',$jsPath);   
+
+		return join("\n    ",$item);
 	    
     }
     
-    /*
-     * function main() 
-     * El metodo principal y por defecto
-     */
     
     public function main(){
-
-    	# Insertamos un Hola mundo en {hello_world}
-    	# Ejem: $this->STRING = {STRING}
-
-    	#$this->hello_world = models::dex('Hola mundo');
-
-    	# Insertamos una variable en la plantilla con el resultado de una función
-
-    	#$this->bloque = array('function' => 'block');
-
-	session_start();
 	
-	if( $_SESSION['user'] ):
+		if( !isset($_SESSION['username']) ){
 	
-	    HTTP::responseToRedirect($this->framework->sys['url'].'form/formato.html');
-	
-	else:
-	
-	    $this->action_form = 'accounts/login';
-	
-	    # Titulo de la página
-	    
-	    $this->title.= " Identificate";
-	    
-	    # Funciones de remplazo: header function
-	    
-	    $this->header = array('function' => 'header');
-	    
-	    # Cargar plantilla
-	    
-	    $this->readfiletemplate("login.form.html");
-	    
-	endif;
+			if( $_POST ){		
+			$user = alphanumeric($_POST['user'],"_\-.\@");		
+			$pass = md5( $this->framework->sys['crypt'] . $_POST['pass']);		
+			Request::HttpRedirect( $this->url_site."accounts/login@",array('user'=>$user,'pass'=>$pass),'');		
+			}
+			
+			
+			
+			# Titulo adicional
+			$this->title.= " - Login.";    
+			# Funciones de remplazo: header function    
+			$this->header = array('function' => 'header');    
+			//$this->body = array('function' => 'mainpage');    
+			$this->readfiletemplate("login.html");
+			
+		} else {
+			
+			$this->dashboard();
+			
+		}
+        
     }
     
     /*
-     * Ejemplo de remplazo de función existente.
+     * function dashboard
      */
-
-    function copyright(){        
+    
+    function dashboard() {
+	
+		# Titulo adicional
+		$this->title.= " - DashBoard";
+		
+		$this->nav = array('function' => 'nav');
+		
+		# Funciones de remplazo: header function    
+		$this->header = array('function' => 'header');
+		
+		
+		
+		
+		$this->body = array('function' => 'mainpage');    
+		
+		$this->readfiletemplate("system.html");
+		
+	}
+	
+	protected function mainpage(){
+		
+		session_start();
         
-        return "&copy; 2012 Windbloom 2.0 REV 5 Luna 2";
-
+        $id_user = numeric($_SESSION['username']['id']);
+		
+		$pdo = new db_pdo();
+		
+		$pdo->add_consult("SELECT id FROM prospectos WHERE author_id=$id_user");
+		
+		$pdo->add_consult("SELECT id FROM prospectos WHERE author_id=$id_user AND status='2'");
+		
+		
+		$query = $pdo->numRows();
+		
+		
+        $c = (object) array();
+		
+		$c->total = (string) $query[0][0];
+		
+		$c->asignados = (string) $query[1][0];	
+		
+		        
+        $c->url_site = $this->url_site;
+        
+        $c->title = "Verificar datos del prospecto ".$_S;
+        
+        return $this->render("plantilla_A.html",true,$c);
+		
+	}
+		
+		
+	protected function nav(){	
+		$nav = new Nav();	
+		return $nav->load();	
     }
-    
-    
-    function block(){
-	
-	    $temp = '';
-	    
-		$template = $this->getTemplate2Loop('default','loop');
-		
-		$rgex = array( "name", "email" );
-
-		$array = array( 
-			array( "name" => "Andros" , "email" => "andros@pixblob.com") 
-		);
-		
-		$part = $this->get_template_part($array,$rgex,$template);
-		
-		$temp.= $part;
-	    
-	    return $temp;
-	
-    }
-    
-    
     
 }
 

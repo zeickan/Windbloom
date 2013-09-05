@@ -105,6 +105,22 @@ class db_pdo {
 		
 	}
 	
+	function removenumber($array){
+		
+		if($array){
+			
+			for($i = 0; $i <= count($array); $i++ ){
+				
+				unset($array[$i]);
+				
+			}
+			
+		}
+		
+		return $array;
+		
+	}
+	
 	function query(){
 		
 		$pdo = self::connect_db();
@@ -118,7 +134,7 @@ class db_pdo {
 			$query->execute( $v[1] );			
 			
 			
-			while($row = $query->fetch()) $response[$l][] = $row;
+			while($row = $query->fetch()) $response[$l][] = self::removenumber($row);
 			
 		}		 
 		
@@ -234,7 +250,6 @@ class db_pdo {
 		
 		$error = $query->errorInfo();
 		
-		echo $query;
 				
 		if( $error[0] === '00000' ){ return true; }
 		else { $this->error = $error; return false; }
@@ -257,7 +272,9 @@ class db_pdo {
 			
 			$response[$l][] = $query->rowCount();
 				
-		}		 
+		}
+		
+		$this->response = $response;
 			
 			
 	} else {
