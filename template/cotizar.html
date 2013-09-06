@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Solicitar cotización | Aceros Vimar{% endblock %}
+{% block content %}
+	<section class="content">
+		<h1>Solicitar cotización</h1>
+		<article class="main">
+
+			<form method="post" name="cotizacion" id="cotizacion">
+			<section class="columns">
+	
+				<h2><span>Información de contacto</span></h2>
+			
+				<p>
+					<label for="name">Nombre de contacto</label><input name="nombre" id="nombre" class="expand">
+				</p>
+				<p>
+					<label for="name">Nombre de la empresa</label><input name="empresa" id="empresa" class="expand">
+				</p>
+				<p class="half">
+					<label for="name">Giro de la empresa</label><input name="giro" id="giro" class="expand">
+				</p>
+				<p class="half">
+					<label for="email">Teléfono (incluir lada)</label><input name="telefono" id="telefono">
+				</p>
+				<p class="half">
+					<label for="email">E-mail</label><input name="email" id="email">
+				</p>
+				<p>
+					<label for="subject">Estado</label><select name="estado" id="estado">
+						<option value="0">Seleccione</option>
+						<option value="1">Distrito Federal</option>
+						<option value="2">Guadalajara</option>
+						<option value="3">...</option>
+					</select>
+				</p>
+				<p>
+					<label for="message">Instrucciones especiales</label><textarea name="mensaje" id="mensaje" rows="3" cols="20"></textarea>
+				</p>	
+
+			</section>	
+
+			<section class="columns">	
+				<h2><span>Productos a cotizar</span></h2>
+				<p>				
+					<select name="productoSel" id="productoSel">
+						<option value="0">Producto</option>
+						<option value="3">asdasdasd asd sad </option>
+					</select>
+					<select name="mediadaSel" id="mediadaSel">
+						<option value="0">Medida</option>
+						<option value="3">...</option>
+					</select>
+					<select name="unidadSel" id="unidadSel">
+						<option value="0">Unidad</option>
+						<option value="3">...</option>
+					</select>	
+
+					<input name="cantidadSel" id="cantidadSel" placeholder="cantidad" class="qinquotation">
+					<br><br>
+					<a href="" class="button ">Agregar a cotización &gt;&gt;</a>
+				</p><br>
+				<p>
+					<table class="pricing">
+						<tr>
+							<td style="width:50%"><b>Producto</b></td>
+							<td style="width:25%"><b>Medida</b></td>
+							<td style="width:25%"><b>Cantidad / Unidad</b></td>
+						</tr>
+						<tr>
+							<td>Varilla Corrugada</td>
+							<td>7.9mm</td>
+							<td>2 toneladas</td>
+						</tr>
+						<tr>
+							<td>Alambre de púas</td>
+							<td>5"</td>
+							<td>200 metros</td>
+						</tr>
+					</table>
+				</p>
+				<p style="text-align:center"><button name="send" type="submit" value="1" style="font-size:20px">Enviar cotización</button></p>
+			</section>
+			</form>
+
+
+
+		</article>
+
+		<aside ><div style="position:fixed;">
+			<h4>Convertidor de unidades</h4>
+				<div>
+					
+					<p>
+						Producto: <br>
+						<select name="" id="">
+							<option>Seleccione</option>
+							<option value="" selected="selected">Ángulo Estándar</option>
+							<option value="">Varilla</option>
+							<option value="">Producto2</option>
+							<option value="">Producto3</option>
+							<option value="">Producto4</option>
+						</select>
+					</p>
+
+					<p>
+						Medida: <br>
+						<select name="" id="">
+							<option>Seleccione</option>
+							<option value="" selected="selected">7"</option>
+							<option value="">medida2</option>
+							<option value="">medida3</option>
+							<option value="">medida4</option>
+							<option value="">medida5</option>
+						</select>
+					</p>
+					<p>
+					Cantidad: <input type="text" name="cantidadpr" id="cantidadpr" style="width: 60px;" placeholder="#" value="1">
+					<br>De: 
+					<input type="radio" name="depr" value="piezas" checked="checked"> <i>Piezas</i> 
+					<input type="radio" name="depr" value="kg"> <i>Kilogramos</i> 
+					<input type="radio" name="depr" value="tn"> <i>Toneladas</i> 
+
+					<br>A: 
+					<input type="radio" name="apr" value="piezas"> <i>Piezas</i> 
+					<input type="radio" name="apr" value="kg" checked="checked"> <i>Kilogramos</i> 
+					<input type="radio" name="apr" value="tn"> <i>Toneladas</i> 
+					</p>	
+
+					<div class="roundedConvertResult">
+						1 pieza(s) = <span>2.8 kilogramos</span>
+
+					</div>
+				</div>
+			</div>
+		</aside>
+		
+	</section>
+{% endblock %}
