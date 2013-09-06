@@ -25,21 +25,21 @@ function cleanHtml($cadena,$exception = NULL){
 
 
 function numeric($cadena , $exeptions = ''){
-	$cadena = preg_replace('[^0-9 '.$exeptions.']',"",$cadena);
+	$cadena = preg_replace('/([^0-9'.$exeptions.']+)/i',"",$cadena);
 	
 	return $cadena;
 }
 
 
 function alphabetic($cadena,$exeptions = ''){
-	$cadena = preg_replace('[^a-zA-Z '.$exeptions.']',"",$cadena);
+	$cadena = preg_replace('/([^a-z '.$exeptions.']+)/i',"",$cadena);
 	
 	return $cadena;
 }
 
 
 function alphanumeric($cadena , $exeptions = ''){
-	$cadena = preg_replace('[^a-zA-Z0-9 '.$exeptions.']',"",$cadena);
+	$cadena = preg_replace('/([^a-z0-9 '.$exeptions.']+)/i',"",$cadena);
 	
 	return $cadena;
 }
@@ -76,7 +76,7 @@ function rWrite($cadena,$delimitador = "_",$toLower = false,$toUpper = false){
 	
 	$cadena = trim(noAcute(utf8_encode($cadena)));	
 	
-	$rewrite = preg_replace("[^A-Za-z0-9".$delimitador."]", $delimitador, $cadena);
+	$rewrite = preg_replace("@[^A-Za-z0-9".$delimitador."]@i", $delimitador, $cadena);
 	
 	if($toLower){
 		$rewrite = strtolower($rewrite);
@@ -97,6 +97,7 @@ function rWrite($cadena,$delimitador = "_",$toLower = false,$toUpper = false){
 				
 	}
 	
+		
 	return $rewrite;
 
 }

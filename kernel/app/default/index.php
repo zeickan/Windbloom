@@ -1,141 +1,110 @@
 <?php
 
 /*
- * class forum
+ * class main 
  */
 
-class main extends template  {
+class main  extends models {
     
     /*
-     * Constructor 
-     * Funciones y variables globales del script
+     * __construct()
+     * @param $arg
      */
     
-    function __construct() {
-	    
-	session_start();
-	
-	global $user;
-        
-        global $windbloom;
-        
-        # Configuración del Framework
-        
-        $this->framework = $windbloom;
-        
-        $this->user = $user;
-        
-        # Variables para la plantilla
-        
-        $this->msg = '';
-        
-        $this->template_path = "formato/";
-        
-        $this->template_url = $windbloom->sys['url'].'template/'.$this->template_path;
-        
-        $this->url_site = $windbloom->sys['url'];
-        
-        $this->url_app = $this->url_site.'formato/';
-        
-        $this->self_file = alphanumeric($_GET['acc']).".html";        
-        
-        # Textos para la plantilla
-        
-        $this->username = 'Username';
-        
-        $this->title = "Login";
-        
-        # GetHeader, GetCopyright, GetSidebar
-        
-        $this->header = array('function' => 'header');
-        
+    function __construct() {	
     }
     
     protected function header(){
-	    
-	    $cssPath = "static/css/";
-	    $item[] = $this->AddStyleSheet("reset.css",$cssPath,'all');
-	    $item[] = $this->AddStyleSheet("form.css",$cssPath,'all');
-	    $item[] = $this->AddStyleSheet("jquery/datePicker.css",$cssPath,'screen');
-	    $item[] = $this->AddStyleSheet("datePicker.css",$cssPath,'screen');        
-    
-	    return join("\n    ",$item);
+
+    	/* Armamos el HEADER DEFAULT */
+
+    	$item[] = parent::header();
+	
+		$cssPath = "static/stylesheets/";
+		$item[] = $this->AddStyleSheet("principal.css",$cssPath,'screen');
+
+		return join("\n    ",$item);
 	    
     }
     
-    /*
-     * function main() 
-     * El metodo principal y por defecto
-     */
     
     public function main(){
 
-    	# Insertamos un Hola mundo en {hello_world}
-    	# Ejem: $this->STRING = {STRING}
+    	$this->dashboard();
 
-    	#$this->hello_world = models::dex('Hola mundo');
-
-    	# Insertamos una variable en la plantilla con el resultado de una función
-
-    	#$this->bloque = array('function' => 'block');
-
-	session_start();
-	
-	if( $_SESSION['user'] ):
-	
-	    HTTP::responseToRedirect($this->framework->sys['url'].'form/formato.html');
-	
-	else:
-	
-	    $this->action_form = 'accounts/login';
-	
-	    # Titulo de la página
-	    
-	    $this->title.= " Identificate";
-	    
-	    # Funciones de remplazo: header function
-	    
-	    $this->header = array('function' => 'header');
-	    
-	    # Cargar plantilla
-	    
-	    $this->readfiletemplate("login.form.html");
-	    
-	endif;
     }
     
     /*
-     * Ejemplo de remplazo de función existente.
+     * function dashboard
      */
+    
+    function dashboard() {
+	
+		# Titulo adicional
+		$this->title.= "Aceros";
+				
+		# Funciones de remplazo: header function    
+		$this->header = array('function' => 'header');
 
-    function copyright(){        
+		$this->content = array('function' => 'content');
+
+		$this->readfiletemplate("index.html");
+		
+	}
+	
+
+	protected function content(){
+
+		$c = (object) array();
+		
+		$c->total = (string) "Total";
+		
+		$c->asignados = (string) "Hello world!";		
+		        
+        $c->url_site = $this->url_site;
         
-        return "&copy; 2012 Windbloom 2.0 REV 5 Luna 2";
+        $c->title = "Title";
 
-    }
-    
-    
-    function block(){
-	
-	    $temp = '';
-	    
-		$template = $this->getTemplate2Loop('default','loop');
-		
-		$rgex = array( "name", "email" );
+		return $this->render("contenido.html",true,$c);
 
-		$array = array( 
-			array( "name" => "Andros" , "email" => "andros@pixblob.com") 
-		);
+	}
+
+	protected function mainpage(){
 		
-		$part = $this->get_template_part($array,$rgex,$template);
+		session_start();
+        
+        $id_user = numeric($_SESSION['username']['id']);
 		
-		$temp.= $part;
-	    
-	    return $temp;
-	
+		$pdo = new db_pdo();
+		
+		$pdo->add_consult("SELECT id FROM prospectos WHERE author_id=$id_user");
+		
+		$pdo->add_consult("SELECT id FROM prospectos WHERE author_id=$id_user AND status='2'");
+		
+		
+		$query = $pdo->numRows();
+		
+		
+        $c = (object) array();
+		
+		$c->total = (string) $query[0][0];
+		
+		$c->asignados = (string) $query[1][0];	
+		
+		        
+        $c->url_site = $this->url_site;
+        
+        $c->title = "Verificar datos del prospecto ".$_S;
+        
+        return $this->render("plantilla_A.html",true,$c);
+		
+	}
+		
+		
+	protected function nav(){	
+		$nav = new Nav();	
+		return $nav->load();	
     }
-    
-    
     
 }
 
