@@ -51,6 +51,11 @@ class main  extends models {
 		$this->readfiletemplate("index.html");
 		
 	}
+
+
+	function productos(){
+		echo"xD";
+	}
 	
 
 	protected function content(){
