@@ -173,7 +173,7 @@ class template {
                     
                         $function = $this->$name($param);
                         
-                        $f = str_replace('{%'.$k.'%}',$function,$f);
+                        $f = str_replace(array('{%'.$k.'%}','{% '.$k.' %}'),$function,$f);
                     
                     endif;
                 }
@@ -224,7 +224,7 @@ class template {
                         
                             $function = $this->$name($param);
                             
-                            $f = str_replace('{%'.$k.'%}',$function,$f);
+                            $f = str_replace(array('{%'.$k.'%}','{% '.$k.' %}'),$function,$f);
                         
                         endif;
                     }

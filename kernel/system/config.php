@@ -8,7 +8,7 @@ $wb = (object) array();
 
 $windbloom->sys = array(
 					  
-	"url" => 'http://127.0.0.1/Windbloom-framework/',
+	"url" => 'http://127.0.0.1/Windbloom/',
         
         #"path" => '/Applications/XAMPP/htdocs/luna/',
         "path" => getcwd().'/',
@@ -63,7 +63,7 @@ define("DBUSER","dev");
 
 define("DBPASS","qwe8521z");
 
-define("DBNAME","forma");
+define("DBNAME","dev_aceros");
 
 
 # Iniciamos...

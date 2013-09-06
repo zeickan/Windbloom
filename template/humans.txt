@@ -1,0 +1,23 @@
+/* TEAM */
+{% for items in team %}
+	{{items.rango}}: {{items.nombre}}
+	Contact: {{items.email}}{% if items.twitter %}
+	Twitter: @{{items.twitter}}{% endif %}
+	From: {{items.pais}}
+	{{items.role}}	
+{% endfor %}
+/* THANKS */	
+{% for items in thanks %}
+	{{items.rango}}: {{items.nombre}}
+	Contact: {{items.email}}{% if items.twitter %}
+	Twitter: @{{items.twitter}}{% endif %}
+	From: {{items.pais}}
+	{{items.role}}
+	
+{% endfor %}
+
+/* SITE */
+	Last update: {{ date }}
+	Language: {{ lang | join:", " }}
+	Technology: {{ tech | join:", " }}
+	IDE: Sublime Text, Compass, SourceTree

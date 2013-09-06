@@ -1,32 +1,103 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html> 
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="author" content="Fernando Magrosoto V." />
-    <meta name="copyright" content="dIGITAE | Fábrica de soluciones" />
-    <meta name="robots" content="NOINDEX,NOFOLLOW" />
-    <meta name="description" content="Sistema de administración de Vivienda Fácil" />
-    
-    {%header}
-    
-    <link rel="stylesheet" type="text/css" media="screen" href="../css/principal.css" />
-    <script src="../libreria/js/fecha.js"></script>
-    <script src="../libreria/js/redireccionar.js"></script>
-    <link href='http://fonts.googleapis.com/css?family=Quando' rel='stylesheet' type='text/css'>    
+    <meta charset="UTF-8">
+    {%header%}
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+   
+    <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
 
+<body class="home color-red">
 
-</head>    
-<body>
+<div class="root">
+
+    <header class="h5">
+        <section class="top">
+            <div>
+                <p>Llámenos: (52) 57487069 - 57675222 | E-mail: <a href="mailto:info@acerosvimar.com">info@acerosvimar.com</a></p>
+                <nav>
+                    <ul>
+                        <li><a href="./contact.html">Contacto</a></li>
+                        <li><a href="#" class="importantLink">(0) Productos en cotización</a></li>
+                    </ul>
+                    <select id="top-nav" name="sec-nav">
+                        <option>Opciones</option>
+                        <option value="#">Contacto</option>
+                        <option value="#">Cotización</option>
+                    </select>
+                </nav>
+            </div>
+        </section>
+        
+        <section class="main-header">
+            <p class="title"><a href="./"><img src="static/images/logo.png"  alt="MultiPurpose"></a> </p>
+            <nav class="social">
+                <ul>
+                    <li><a href="#" class="facebook">Facebook</a></li>
+                    <li><a href="#" class="twitter">Twitter</a></li>
+                </ul>
+            </nav>
+            <nav class="mainmenu">
+                <ul>
+                    <li class="current-menu-item"><a href="./">Home</a></li>                    
+                    <li><a href="productos.html">Productos</a></li>
+                    <li><a href="#">Catálogos</a></li>
+                    <li><a href="#">Directorio</a></li>                 
+                    <li><a href="#">Nosotros</a></li>
+                    <li><a href="#">Cotizar</a></li>
+                </ul>
+                <select id="sec-nav" name="sec-nav">
+                    <option value="./">Menú principal</option>
+                    <option value="./" selected="selected">Home</option>                    
+                    <option value="productos.html">Productos</option>
+                    <option>Catálogos</option>
+                    <option>Directorio</option>
+                    <option>Nosotros</option>
+                    <option>Cotizar</option>
     
-    <form action="{{url_site}}" method="post" enctype="multipart/form-data">
-        
-        <input type="text" name="user" placeholder="usuario"><br>
-        
-        <input type="password" name="pass" placeholder="contraseña">
+                </select>               
+            </nav>
+            <div class="clear"></div>
+        </section>
+    </header>
+    <!-- HEADER -->
+
+    {% content %}
+
+    <footer>
+        <section class="widgets"><article>
+                <h3><span>Contáctenos</span></h3>
+                <p>Cerrada Norte 70 #8120<br>Colonia Salvador Díaz Mirón<br>C.P 07500, Gustavo A. Madero<br>Ciudad de México<br>Telefonos: 57487069 - 57675222<br>E-mail: <a href="mailto:info@acerosvimar.com">info@acerosvimar.com</a></p>
+            </article><article class="widget_photos">
+                <h3><span>Nuestras instalaciones</span></h3>
+                <ul>
+                    <li><a href="#"><img src="static/images/temp/01.jpg"  alt=""></a></li>
+                    <li><a href="#"><img src="static/images/temp/02.jpg"  alt=""></a></li>
+                    <li><a href="#"><img src="static/images/temp/03.jpg"  alt=""></a></li>
+                    <li><a href="#"><img src="static/images/temp/04.jpg"  alt=""></a></li>
+                    <li><a href="#"><img src="static/images/temp/05.jpg"  alt=""></a></li>
+                    <li><a href="#"><img src="static/images/temp/06.jpg"  alt=""></a></li>
+                </ul>
+            </article><article class="widget_newsletter">
+                <h3><span>Regístrese en el boletín</span></h3>
+                <p>Ingrese su email y de clic en el sobre para realizar el registro.</p>
+                <form action="newsletter-signup.php" method="post" class="newsletter-subscribe-form">
+                    <p><input name="MAIL" id="news_email" placeholder="Su email"><button type="submit" name="subscribe" id="subscribe" value="1"><img src="static/images/mail.png"  alt="Subscribe"></button></p>
+                </form>
+            </article>
+        </section>
+        <section class="bottom">
+            <p>Derechos Reservados acerosvimar.com 2013 | Powered by <a href="http://www.webservice.com.mx" target="_blank">Webservice</a></p>
             
-        <input type="submit" value="Entrar">
-        
-    </form>
-    
-</body>    
+        </section>
+    </footer>
+    <!-- FOOTER -->
+</div>
+
+<script type="text/javascript" src="static/js/jquery.js"></script>
+<script type="text/javascript" src="static/js/scripts.js"></script>
+</body>
 </html>

@@ -12,198 +12,24 @@ class models extends template {
      */
     
     function __construct() {
-        
-	
-        
-        
-    }
-    
-    public function sendMessage($title,$msg,$to,$togroup = null,$activity = false,$rel = null){
-	
-	$pdo = new db_pdo();
-	
-	$array = array( "title" => $title,
-		        "message" => $msg,
-			"message_to" => $to,
-			"rel_id" => $togroup,
-			"activity" => $activity,
-			"client_id" => $rel
-			);
-	
-	if( $pdo->insert("messages",$array) ){
-	    
-	    return true;
-	    
-	} else {
-	    
-	    return false;
-	    
-	}
-	
-    }
-    
-    public function loadmessages(){
-	
-	global $windbloom;
-        
-        $this->url_site = $windbloom->sys['url'];
-    
-	$cssPath = "static/stylesheets/";
-	$item[] = $this->AddStyleSheet("jquery.ambiance.css",$cssPath,'screen');
-	
-	
-        $jsPath = "static/javascript/";
-        $item[] = $this->addJavaScript('jquery.ambiance.js',$jsPath);
-	
-	$pdo = new db_pdo();
-	
-	$app = alphanumeric($_GET['app']);
-	
-	$pdo->add_consult("SELECT * FROM messages WHERE activity='$app' GROUP BY client_id");
-	
-	$query = $pdo->query();
-	
-	//print_r($query);
-	if( $query[0] ){
-	    
-	$item[] = '<script type="text/javascript">';
-	$item[] = '$(document).ready(function() {';
-	    
-	    foreach($query[0] as $row){
-		
-		if( $row["client_id"] ){
-		
-		    $msg = '<a href="'.$this->url_site.$app.'/editar@d='.$row["client_id"].'">'.$row['title'].'</a><small><br>'.$row['message'].'</small>';    
-		    
-		} else {
-		    
-		    $msg = '<span>'.$row['title'].'</span><small><br>'.$row['message'].'</small>';
-		    
-		}
-		
-	      
-	      $item[] = '$.ambiance({message: \''.$msg.'\', width: 350, timeout: 5});';
-	      
-	    }
-	$item[] = '});	</script>';
-	
-	}
 
-	return join("\n    ",$item);
-	
-    }
-    
-    public function Masks(){
-        
-        $pdo = new db_pdo();       
-    
-        $pdo->add_consult("SELECT * FROM masks");
-        
-        $query = $pdo->query();
-        
-        return $query[0];
-        
-    }
-    
-    public function Groups(){
-        
-        $pdo = new db_pdo();       
-    
-        $pdo->add_consult("SELECT * FROM users_groups");
-        
-        $query = $pdo->query();
-        
-        return $query[0];
-        
     }
     
     
-    public function Dictionary($dictionary, $inherit = null ){
-		
-		if( !is_null($inherit) ):
-			
-			$condition = " WHERE inherit='$inherit' ";
-			
-		endif;
-        
-        $pdo = new db_pdo();       
-    
-        $pdo->add_consult("SELECT * FROM  dictionary_".$dictionary.$condition);
-        
-        $query = $pdo->query();
-        
-        return $query[0];
-        
-    }
-    
-    /*
-     * function requieredFields
-     * @param $array,$needle
-     */
-    
-    function requieredFields($array,$needle){
-        
-        $return = true;        
-        if($needle){                        
-            foreach($needle as $key ){                
-                if( $array[$key] ){
-                    # Run run
-                } else {
-                    $return = false;
-                }                
-            }            
-        }        
-        return $return;        
-    }
-    
-    
-    public function genmsg($msg , $type = 'success'){
-        
-        switch($type){
-            
-            case"success":
-                $msg = '<div class="msgHecho">'.$msg.'</div>';
-                
-            break;
-                
-            case"warning":
-                $msg = '<div class="msgAdvertencia">'.$msg.'</div>';
-                
-            break;
-        
-            case"error":
-                $msg = '<div class="msgError">'.$msg.'</div>';
-                
-            break;
-            
-        }
-    
-    
-        return $msg;
-    
-    
-    }
     
     protected function header(){
 
     	/* Armamos el HEADER DEFAULT */
 
     	$item[] = parent::header();	
-		$cssPath = "static/stylesheets/";
-		$item[] = $this->AddStyleSheet("principal.css",$cssPath,'screen');
-        $item[] = $this->AddStyleSheet("colorbox.css",$cssPath,'screen');
-        $item[] = $this->AddStyleSheet("themes/red.css",$cssPath,'screen');
-        $item[] = $this->AddStyleSheet("themes/red.css",$cssPath,'screen');
-        $item[] = $this->AddStyleSheet("main.css",$cssPath,'screen');        
+		$cssPath = "static/";
+		$item[] = $this->AddStyleSheet("style.css",$cssPath,'screen');
+        $item[] = $this->AddStyleSheet("style-headers.css",$cssPath,'screen');
+        $item[] = $this->AddStyleSheet("style-colors.css",$cssPath,'screen');
+        
 	
-	
-        $jsPath = "static/javascript/";
+        $jsPath = "static/js/";
         $item[] = $this->addJavaScript('fecha.js',$jsPath);
-		$item[] = $this->addJavaScript('redireccionar.js',$jsPath);        
-        $item[] = $this->addJavaScript('jquery-1.8.0.min.js',$jsPath);
-        $item[] = $this->addJavaScript('colorbox.js',$jsPath);
-        $item[] = $this->addJavaScript('datepicker.js',$jsPath);
-        $item[] = $this->addJavaScript('zqdatagrid.js',$jsPath);
         
 
         return join("\n    ",$item);

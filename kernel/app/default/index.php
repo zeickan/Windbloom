@@ -11,57 +11,7 @@ class main  extends models {
      * @param $arg
      */
     
-    function __construct() {
-        
-        session_start();
-    	
-    	global $user;
-        
-        global $windbloom;
-        
-        # Configuraci—n del Framework
-        
-        $this->framework = $windbloom;
-        
-        $this->user = $user;
-        
-        # Variables para la plantilla
-        
-	$this->template_path = "viviendafacil/";
-        
-        $this->msg = '';
-        
-        $this->url_site = $windbloom->sys['url'];
-        
-        $this->url_app = $this->url_site.'';
-        
-        $this->self_file = alphanumeric($_GET['acc']).".html";
-        
-        # Textos para la plantilla
-        
-        $this->title = "Vivienda Facil";
-
-$this->messages = array('function' => 'loadmessages');
-	
-    
-        
-        # GetHeader, GetCopyright, GetSidebar        
-	
-		// Validamos el Login en cada pagina de esta APP
-			session_start();
-		
-		if( !isset($_SESSION['username']) && !empty($_GET['acc'])  ){
-			
-			Request::HttpRedirect( $this->url_site );
-			
-		} else {
-			
-			$this->username = $_SESSION['username']['profile']['name'].' '.$_SESSION['username']['profile']['last_name'];
-			
-			$this->url_logout = $this->url_site.'accounts/logout';
-			
-		}
-	
+    function __construct() {	
     }
     
     protected function header(){
@@ -72,11 +22,6 @@ $this->messages = array('function' => 'loadmessages');
 	
 		$cssPath = "static/stylesheets/";
 		$item[] = $this->AddStyleSheet("principal.css",$cssPath,'screen');
-	
-	
-        $jsPath = "static/javascript/";
-        $item[] = $this->addJavaScript('fecha.js',$jsPath);
-		$item[] = $this->addJavaScript('redireccionar.js',$jsPath);   
 
 		return join("\n    ",$item);
 	    
@@ -84,30 +29,9 @@ $this->messages = array('function' => 'loadmessages');
     
     
     public function main(){
-	
-		if( !isset($_SESSION['username']) ){
-	
-			if( $_POST ){		
-			$user = alphanumeric($_POST['user'],"_\-.\@");		
-			$pass = md5( $this->framework->sys['crypt'] . $_POST['pass']);		
-			Request::HttpRedirect( $this->url_site."accounts/login@",array('user'=>$user,'pass'=>$pass),'');		
-			}
-			
-			
-			
-			# Titulo adicional
-			$this->title.= " - Login.";    
-			# Funciones de remplazo: header function    
-			$this->header = array('function' => 'header');    
-			//$this->body = array('function' => 'mainpage');    
-			$this->readfiletemplate("login.html");
-			
-		} else {
-			
-			$this->dashboard();
-			
-		}
-        
+
+    	$this->dashboard();
+
     }
     
     /*
@@ -117,22 +41,34 @@ $this->messages = array('function' => 'loadmessages');
     function dashboard() {
 	
 		# Titulo adicional
-		$this->title.= " - DashBoard";
-		
-		$this->nav = array('function' => 'nav');
-		
+		$this->title.= "Aceros";
+				
 		# Funciones de remplazo: header function    
 		$this->header = array('function' => 'header');
-		
-		
-		
-		
-		$this->body = array('function' => 'mainpage');    
-		
-		$this->readfiletemplate("system.html");
+
+		$this->content = array('function' => 'content');
+
+		$this->readfiletemplate("index.html");
 		
 	}
 	
+
+	protected function content(){
+
+		$c = (object) array();
+		
+		$c->total = (string) "Total";
+		
+		$c->asignados = (string) "Hello world!";		
+		        
+        $c->url_site = $this->url_site;
+        
+        $c->title = "Title";
+
+		return $this->render("contenido.html",true,$c);
+
+	}
+
 	protected function mainpage(){
 		
 		session_start();

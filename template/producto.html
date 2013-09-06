@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Producto titulo | Aceros Vimar{% endblock %}
+{% block content %}
+	<section class="breadcrumb p07">
+		<p><a href="index.html">Home</a> <a href="productos.html">Productos</a> <a href="">Aceros Comerciales y Estucturales</a> Ángulo Estándar</p>
+	</section>
+
+	<section class="content">
+		<article class="main">
+		<article class="product">
+			<p class="product-img"><span class="img-border"><img src="{% static "images/temp/product-image.jpg" %}" alt=""></span></p>
+			<div>
+				<h1>Ángulo Estándar</h1>
+			</div>
+			<div class="descr">
+		
+				<p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.</p>
+				<dl class="product-data">
+					<dt>Propiedad 1:</dt>
+					<dd><a href="#">7"</a></dd>
+					<dt>Propiedad 2:</dt>
+					<dd><a href="#">Metálico</a></dd>
+				</dl>
+			</div>
+
+			<section class="columns popular-objects">
+			<h2><span><b>Productos de:</b> Aceros Comerciales y Estructurales</span></h2>
+			<div class="col6">
+				<div class="img"><a href="#"><span class="img-border"><img src="{% static "images/temp/prod05.jpg" %}" alt=""></span></a></div><a href="#">Lorem ipsum dolor sit.</a>
+			</div><div class="col6">
+				<div class="img"><a href="#"><span class="img-border"><img src="{% static "images/temp/prod06.jpg" %}" alt=""></span></a></div><a href="#">Lorem ipsum dolor sit amet.</a>
+			</div><div class="col6">
+				<div class="img"><a href="#"><span class="img-border"><img src="{% static "images/temp/prod07.jpg" %}" alt=""></span></a></div><a href="#">Lorem ipsum dolor.</a>
+			</div><div class="col6">
+				<div class="img"><a href="#"><span class="img-border"><img src="{% static "images/temp/prod08.jpg" %}" alt=""></span></a></div><a href="#">Lorem ipsum dolor sit amet.</a>
+			</div><div class="col6">
+				<div class="img"><a href="#"><span class="img-border"><img src="{% static "images/temp/prod09.jpg" %}" alt=""></span></a></div><a href="#">Lorem ipsum dolor.</a><br>
+			</div><div class="col6">
+				<div class="img"><a href="#"><span class="img-border"><img src="{% static "images/temp/prod10.jpg" %}" alt=""></span></a></div><a href="#">Lorem ipsum.</a>
+			</div>
+		</section>
+		</article>
+	</article>
+		<aside>
+		<section>
+		<h4>Convertidor de unidades</h4>
+			<div>
+				<p>
+					Producto: <br>
+					<select name="" id="">
+						<option>Seleccione</option>
+						<option value="" selected="selected">7"</option>
+						<option value="">medida2</option>
+						<option value="">medida3</option>
+						<option value="">medida4</option>
+						<option value="">medida5</option>
+					</select>
+				</p>
+				<p>
+				Cantidad: <input type="text" name="cantidadpr" id="cantidadpr" style="width: 60px;" placeholder="#" value="1">
+				<br>De: 
+				<input type="radio" name="depr" value="piezas" checked="checked"> <i>Piezas</i> 
+				<input type="radio" name="depr" value="kg"> <i>Kilogramos</i> 
+				<input type="radio" name="depr" value="tn"> <i>Toneladas</i> 
+
+				<br>A: 
+				<input type="radio" name="apr" value="piezas"> <i>Piezas</i> 
+				<input type="radio" name="apr" value="kg" checked="checked"> <i>Kilogramos</i> 
+				<input type="radio" name="apr" value="tn"> <i>Toneladas</i> 
+				</p>	
+
+				<div class="roundedConvertResult">
+					1 pieza(s) <br>= <br><span>2.8 kilogramos</span>
+
+				</div>
+			</div>
+
+			<p ><a href="#" class="button">Cotize este producto</a></p>
+			</section>
+	</aside>
+	</section>
+{% endblock %}
