@@ -1,44 +1,57 @@
-{% extends "base.html" %}
-{% load staticfiles %}
-{% block title %}Productos - Aceros Vimar{% endblock %}
-{% block content %}
+<pre>{% categorias %}</pre>
+
 	<section class="content">
 		<h1>Productos</h1>
 		<section class="columns">
-		 	<h2><span>Aceros Comerciales y Estructurales</span></h2>
+		 	<h2><span><a href="">Aceros Comerciales y Estructurales</a></span></h2>
+		 	<section class="col1 subcatsContainer">
+		 		
+		 		<ul class="subcats">
+		 				<li><a href="">Subcategoría 1</a></li>
+		 				<li><a href="">Subcategoría 2</a></li>
+		 				<li><a href="">Subcategoría 3</a></li>
+		 				<li><a href="">Subcategoría 4</a></li>
+		 				<li><a href="">Subcategoría 5</a></li>
+		 			</ul>	
+		 	</section>
 		 	<article class="col2 team">
-		 		<div class="img-border"><img src="{% static "images/temp/114.jpg" %}" alt=""></div>
+		 		<div class="img-border"><img src="{{static}}images/temp/114.jpg" alt=""></div>
 		 		<h3><a href="producto.html">Ángulo estandar</a></h3>
 		 		<p>Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.</p>
 		 		<p><a href="cotizar.html" class="button">+ Cotizar</a></p>
 		 	</article><article class="col2 team">
-		 		<div class="img-border"><img src="{% static "images/temp/115.jpg" %}" alt=""></div>
+		 		<div class="img-border"><img src="{{static}}images/temp/115.jpg" alt=""></div>
 		 		<h3> <a href="producto.html">Redondo</a></h3>
 		 		<p>Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.</p>
 		 		<p><a href="cotizar.html" class="button">+ Cotizar</a></p>
 		 	</article>
-		 	<article class="col2 team">
-		 		<div class="img-border"><img src="{% static "images/temp/115.jpg" %}" alt=""></div>
-		 		<h3> <a href="producto.html">Solera</a></h3>
-		 		<p>Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.</p>
-		 		<p><a href="cotizar.html" class="button">+ Cotizar</a></p>
-		 	</article>
+		 	<p class="more masproductos"><a href="#">Ver más productos de Aceros Comerciales</a></p>
 		 </section>
 
 
 		 <section class="columns">
-		 	<h2><span>Alambres Galvanizados y Derivados</span></h2>
+		 	<h2><span><a href="">Alambres Galvanizados y Derivados</a></span></h2>
+		 	<section class="col1 subcatsContainer">
+		 		
+		 		<ul class="subcats">
+		 				<li><a href="">Subcategoría 1</a></li>
+		 				<li><a href="">Subcategoría 2</a></li>
+		 				<li><a href="">Subcategoría 3</a></li>
+		 				<li><a href="">Subcategoría 4</a></li>
+		 				<li><a href="">Subcategoría 5</a></li>
+		 			</ul>	
+		 	</section>
 		 	<article class="col2 team">
-		 		<div class="img-border"><img src="{% static "images/temp/114.jpg" %}" alt=""></div>
+		 		<div class="img-border"><img src="{{static}}images/temp/114.jpg" alt=""></div>
 		 		<h3> <a href="producto.html">Alambre de Púas SAN</a></h3>
 		 		<p>Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.</p>
 		 		<p><a href="cotizar.html" class="button">+ Cotizar</a></p>
 		 	</article><article class="col2 team">
-		 		<div class="img-border"><img src="{% static "images/temp/115.jpg" %}" alt=""></div>
+		 		<div class="img-border"><img src="{{static}}images/temp/115.jpg" alt=""></div>
 		 		<h3> <a href="producto.html">Malla Ciclónica</a></h3>
 		 		<p>Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.</p>
 		 		<p><a href="cotizar.html" class="button">+ Cotizar</a></p>
 		 	</article>
+		 	<p class="more masproductos"><a href="#">Ver más productos de Alambres Galvanizados y Derivados</a></p>
 		 </section>
 	</section>
-{% endblock %}

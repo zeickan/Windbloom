@@ -4,7 +4,7 @@
  * class main 
  */
 
-class main  extends models {
+class main extends models {
     
     /*
      * __construct()
@@ -12,6 +12,15 @@ class main  extends models {
      */
     
     function __construct() {	
+
+    	global $windbloom;
+
+    	$this->url_site = $windbloom->sys['url'];
+        
+        $this->url_app = $this->url_site.'';
+
+        $this->current_link();
+
     }
     
     protected function header(){
@@ -48,7 +57,7 @@ class main  extends models {
 
 		$this->content = array('function' => 'content');
 
-		$this->readfiletemplate("index.html");
+		$this->readfiletemplate("base.html");
 		
 	}
 
@@ -62,54 +71,15 @@ class main  extends models {
 
 		$c = (object) array();
 		
-		$c->total = (string) "Total";
-		
-		$c->asignados = (string) "Hello world!";		
-		        
-        $c->url_site = $this->url_site;
-        
-        $c->title = "Title";
+		$c->static = $this->url_site."static/";
+
+		$c->url_site = $this->url_site;
+
+		$c->title = "Title";
 
 		return $this->render("contenido.html",true,$c);
 
 	}
 
-	protected function mainpage(){
-		
-		session_start();
-        
-        $id_user = numeric($_SESSION['username']['id']);
-		
-		$pdo = new db_pdo();
-		
-		$pdo->add_consult("SELECT id FROM prospectos WHERE author_id=$id_user");
-		
-		$pdo->add_consult("SELECT id FROM prospectos WHERE author_id=$id_user AND status='2'");
-		
-		
-		$query = $pdo->numRows();
-		
-		
-        $c = (object) array();
-		
-		$c->total = (string) $query[0][0];
-		
-		$c->asignados = (string) $query[1][0];	
-		
-		        
-        $c->url_site = $this->url_site;
-        
-        $c->title = "Verificar datos del prospecto ".$_S;
-        
-        return $this->render("plantilla_A.html",true,$c);
-		
-	}
-		
-		
-	protected function nav(){	
-		$nav = new Nav();	
-		return $nav->load();	
-    }
-    
 }
 

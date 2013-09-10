@@ -13,8 +13,26 @@ class models extends template {
     
     function __construct() {
 
+    	/* Current */
+
+
     }
     
+    protected function current_link(){
+
+    	$this->current_home = 'class="current-menu-item"';
+
+        $this->current_productos = '';
+
+        $this->current_catalogos = '';
+
+        $this->current_directorio = '';
+
+        $this->current_nosotros = '';
+
+        $this->current_cotizar = '';
+
+    }
     
     
     protected function header(){
