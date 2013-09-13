@@ -9,10 +9,11 @@ RewriteRule ([a-zA-Z0-9_-]+)/$ index.php?app=$1
 # RewriteRule ([a-zA-Z0-9_-]+)/([a-zA-Z0-9]+)$ index.php?app=$1&acc=$2
 # RewriteRule ([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)@(.*)$ index.php?app=$1&acc=$2&$3
 
-RewriteRule ([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+).html$ index.php?app=$1&acc=$2
-RewriteRule ([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+).html@(.*)$ index.php?app=$1&acc=$2&$3
+RewriteRule ([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ index.php?app=$1&acc=$2
+RewriteRule ([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)@(.*)$ index.php?app=$1&acc=$2&$3
 
-
+RewriteRule thumbnails/(.*)$ thumb.php?size=250&ratio=4:6&crop=1&mask=220:220&image=$1
+RewriteRule mini/(.*)$ thumb.php?size=100&ratio=4:6&crop=1&mask=90:90&image=$1
 
 # JSON
 
