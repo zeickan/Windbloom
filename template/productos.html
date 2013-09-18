@@ -1,6 +1,29 @@
+<script type="text/javascript">
+    $(document).ready(function() {
+        
+        $(".addItem").click(function(event) {
+            
+            var id = $(this).attr("rel");
+
+            
+            $.getJSON( '{{url_site}}rest/addItem@i='+id+'&callback=?' ,{},
+                function(data) {
+                   
+                	console.log("lll");
+
+                   alert("Añadido a cotizador");
+
+            });      
+
+        });
+
+    });
+</script>
+
 	<section class="content">
 		<h1>Productos</h1>
 
 		{% categorias %}
 
 	</section>
+

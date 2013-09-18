@@ -63,12 +63,12 @@ $('header .title img').each(function() {
 	}
 });
 
-//select in navigation
+//select en navigation
 $('nav select').change(function() {
 	window.location = $(this).val();
 })
 
-// tab mechanism
+// mecanismo del tab
 $(".tabbed").each(function(){
 	var tabset = $(this);
 	var tabs = tabset.find(".tabs a");
@@ -514,7 +514,7 @@ $(".slider6").each(function(){
 });
 
 
-// slider 10 - with custom scrollbar
+// slider 10 - con custom scrollbar
 	$(".slider10").each(function() {
 		var slider = $(this);
 		var itemList = slider.find("ul");
@@ -665,7 +665,7 @@ $(".slider6").each(function(){
 
 	
 	
-	// sliders in content					
+	// sliders en content					
 	$(".content-slider").each(function(){
 	var me = $(this);
 	var box = me.find(".slider-box");
@@ -763,7 +763,7 @@ $(".gmap").each(function(){
     });
 });
 
-//filters in portfolio
+//filtros en portafolio
 $(".portfolio").each(function(){
 	var pf = $(this);
 	var filters = pf.find(".filters a");
@@ -848,7 +848,7 @@ $("ul.accordion").each(function() {
 });
 
 
-//progress bars 
+//barras de progreso
 $(".progress").each(function() {
 	var stretched = false;
 	var scrollTop = 0;
@@ -908,7 +908,7 @@ $("footer .social a").each(function(){
 	});
 });
 
-// custom checkboxes and radios
+// custom checkboxes & radios
 $("input[type=checkbox], input[type=radio]").not("input[type=radio].star").each(function(){
 	var me = $(this);
 	var myType = me.attr("type");
@@ -973,20 +973,24 @@ $("input[type=file]").each(function(){
 });
 
 //custom select
-$("select").each(function(){
-	var select = $(this).css('opacity', 0);
-    select.wrap('<span class="select"/>');
-    select.before('<span class="value"><span></span></span>');
-    var selectVal = select.siblings(".value").find("span");
+function stylishSelect(){
+	$("select").each(function(){
+		var select = $(this).css('opacity', 0);
+	    select.wrap('<span class="select"/>');
+	    select.before('<span class="value"><span></span></span>');
+	    var selectVal = select.siblings(".value").find("span");
 
-    function selectUpdate() {
-    	var newVal = select.find(':selected').text();
-        selectVal.html(newVal);
-    }
+	    function selectUpdate() {
+	    	var newVal = select.find(':selected').text();
+	        selectVal.html(newVal);
+	    }
 
-    select.bind('change keypress keydown keyup', selectUpdate);
-    selectUpdate();
-});
+	    select.bind('change keypress keydown keyup', selectUpdate);
+	    selectUpdate();
+	});
+}
+
+stylishSelect();
 
 // drop-down menu - arrows
 $("nav ul").each(function() {
@@ -1079,13 +1083,13 @@ $("aside .menu").each(function() {
 	});
 });
 
-//hiding message boxes
+//esconder cajas de mensaje
 $(".msg a.hide").click(function(e){
 	e.preventDefault();
 	$(this).parent().hide();
 });
 
-//go-top link behaviour
+//go-top 
 $(".go-top").each(function(){
 	var gt = $(this);
 	var scrollTop = 0;
@@ -1102,7 +1106,7 @@ $(".go-top").each(function(){
 	});
 });
 
-//fancy borders on images
+//fancy bordes en imágenes
 $(".content img, footer .widget_photos img").not(".content .testimonial img, .hp-services img, .logo, h3 img, button img, .product-meta img, .img-border img").each(function(){
 	var i = $(this);
 	i.wrap('<span class="img-border"></span>');
@@ -1160,7 +1164,7 @@ $(".landing-form form").each(function(){
 	})
 });
 
-// contact form 
+// forma de contacto
 $(".contact-form").each(function(){
 	var form = $(this);
 	var button = form.find("button[type=submit]");
@@ -1271,7 +1275,7 @@ $(".slider5 form").each(function(){
 	})
 });
 
-//returning to normal style on change
+//regresando al estilo normal onchange
 $("input, textarea").change(function(){
 	if($(this).hasClass("error")){
 		$(this).removeClass("error");	
@@ -1283,7 +1287,7 @@ $("select").change(function(){
 	}
 });
 
-// the last menu links with dropdown menuParents
+// los últimos links del menu con dropdown menuParents
 $(".boxed").each(function(){
 	var root = $(".root");
 	var boundary = root.offset().left + root.width() - 180;
@@ -1298,7 +1302,7 @@ $(".boxed").each(function(){
 	});
 });
 
-//sending the newsletter subscription form
+//enviar el newsletter desde la forma de suscripción
 $("form.newsletter-subscribe-form").each(function(){
 
 	var form = $(this);
@@ -1339,4 +1343,166 @@ $("form.newsletter-subscribe-form").each(function(){
 		}, 'json');
 	})
 });
+
+
+
+// Covertidor de medidas
+//$(function(){
+
+	//alert(productos["1"][0])
+	//console.debug(productos)
+
+	//r = convert("tn","2",2);
+	//console.debug(r);
+
+	/*a = setProductosSelect();
+	console.log(a)*/
+
+	function doConversion(t,r){
+		$(t).empty();
+
+		var items =  [];
+		var label = "";
+		
+		$.each(r, function(index, val) {
+			//console.log(index+" - "+val)
+			
+			switch(index){
+						case "piezas": label =  "Pieza(s)";  break;
+						case "ml": label =  "Metros Lineales"; break;
+						case "kg": label =  "Kilogramos"; break;
+						case "tn": label =  "Toneladas"; break;
+					}
+
+			 $(t).append($("<li />",{
+				html : '<span>'+label+'</span>: '+val
+			}));
+		});
+
+		$(t).append(items.join());
+
+
+		/*$(t).append('<li>').html('<span>Piezas: </span>'+r.piezas);
+		$(t).append('<li>').html('<span>Metros Lineales: </span>'+r.ml);
+		$(t).append('<li>').html('<span>Kilogramos: </span>'+r.kg);
+		$(t).append('<li>').html('<span>Toneladas: </span>'+r.tn);*/
+			
+
+	}
+
+	function convert(unit,amount,pid){
+
+		var results = {};
+		var longitud = productos[pid][2];
+		var peso = productos[pid][3];
+		//console.log(unit+" - "+amount+" - "+pid)
+		switch(unit){
+
+			case "p": // piezas
+				piezas = amount;
+				ml = longitud*amount;
+				kg = peso*amount;
+				tn = kg/1000; 
+				
+			break;	
+
+			case "ml": // Metros Lineales
+				piezas = amount/longitud;
+				ml = amount;
+				kg = peso*piezas;
+				tn = kg/1000; 
+			break;	
+
+			case "kg": // Kilogramos
+				piezas = peso*amount;
+				ml = longitud*piezas;
+				kg = amount;
+				tn = kg/1000; 
+			break;	
+
+			case "tn": // Toneladas
+				piezas = peso*(amount*1000);
+				ml = longitud*piezas;
+				kg = amount*1000;
+				tn = amount; 
+			break;	
+		}
+
+		results.piezas = Number(piezas).toFixed(0);
+		results.ml = Number(ml).toFixed(2);
+		results.kg = Number(kg).toFixed(2);
+		results.tn = Number(tn).toFixed(2);
+
+
+		return results;
+
+	}
+
+
+	function fillProdsSelect(el){
+
+	 	var uniqueA = [];
+
+		$.each(productos,function(i, p){
+			if(p != undefined){
+					label = p[0];
+				    if($.inArray(label, uniqueA) === -1){
+				    	uniqueA.push(label);
+				    		$(el).append($("<option />",{
+				    			value: i,
+				    			text: label
+				    		}));
+				    }	
+			}
+		})
+		
+		//return uniqueA;
+
+	}
+
+
+
+	function fillVariacionesSelect(el,prodLabel){
+		$(el).empty();
+		$.each(productos,function(i, p){
+			if(p != undefined){
+					producto = p[0];
+					label = p[1];
+					//console.log(producto+" - "+prodLabel);
+					
+				    if(producto == prodLabel){
+				    		$(el).append($("<option />",{
+				    			value: i,
+				    			text: label
+				    		}));
+				    }	
+			}
+		})
+
+$("span.value").remove();
+$("span.select").css("border","0");		
+stylishSelect();
+		//$(el).find("option").eq(0).attr("selected","selected");
+	/*var selectVal = select.siblings(".value").find("span");
+	function selectUpdate() {
+    	var newVal = $(el).find(':selected').text();
+        selectVal.html(newVal);
+    }
+
+    $(el).bind('change keypress keydown keyup', selectUpdate);
+    selectUpdate();*/
+		
+	}
+
+
+
+
+
+
+
+	
+
+
+//});
+
 

@@ -94,9 +94,21 @@ blockquote {margin: 1.5em 0 1.5em 1em; padding: 1px 0 1px 1.5em; border-left: 2p
 	color: #000;
 	font-size: 20px;
 }
-.roundedConvertResult>span{
+.roundedConvertResult span{
 	font-weight: bold;
 }
+
+.roundedConvertResult>ul{
+	font-size: 0.7em;
+	text-align: left;
+}
+
+.roundedConvertResult>ul li{
+	list-style: none;
+	border-bottom: solid 1px #ccc;
+	padding-bottom: 5px;
+	margin-left: -5px;
+}	
 
 .qinquotation{
 	margin-top: 10px;

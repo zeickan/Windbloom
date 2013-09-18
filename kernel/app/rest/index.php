@@ -31,118 +31,66 @@ class rest extends models  {
     }
     
     
-    public function login(){
+    public function addItem(){
         
-        if( parent::requieredFields( $_GET, array('user','pass') ) ):
-            
-            $pdo = new db_pdo();
-            
-            $user = alphanumeric($_GET['user'],"_-.\@");
-            
-            $pass = alphanumeric($_GET['pass'],"_-.\@");
-            
-            $pdo->add_consult("SELECT * FROM users WHERE username='$user' && passwd='$pass'");
+        $id = numeric($_GET['i']);
 
-            $query = $pdo->query();
+        if( $id ):
+
+            session_start();
+
+            $_SESSION['basket'][$id] = numeric($id);
+
+            $str = $this->GenerateJson('ok',$json);
             
-            $user_query = $query[0];
-            
-            if( $query[0][0] >= 1 ){
-                
-                $pdo->unset_consult();
-                
-                $pdo->add_consult("SELECT * FROM users_profile WHERE aka='$user'");
-                
-                $query = $pdo->query();
-                
-                $json['message'] = "Welcome";
-                
-                $json['profile'] = $query[0][0];
-                
-                $json['user'] = $user_query;
-            
-                $str = $this->GenerateJson('ok',$json);
-            
-                echo $str;
-                
-                
-            } else {
-                
-                $this->error('Usuario no encontrado.');
-                
-            }
+            echo $str;
         
         else:
-        
-            $this->error('Error en la petición.');
-        
-        endif;       
-        
-    }
-    
-    public function signup(){
-        
-        if( parent::requieredFields( $_GET, array('user','name','locate') ) ){
-            
-            
-            $pdo = new db_pdo();
-            
-            $json['OwnCode'] = randStr(21,0,1,1,0);
-            
-            $name = explode(" ", alphanumeric(rawurldecode($_GET['name'])) );
-            
-            $pais = alphanumeric($_GET['locate']);
-            
-            $user = alphanumeric($_GET['user'],"_-.\@");
-            
-            
-            
-            $pdo->add_consult("SELECT * FROM trconcursantes WHERE email='$user'");
 
-            $query = $pdo->numRows();
-            
-            if( $query[0][0] < 1 ){
-            
-                
-                if( $pdo->insert("trconcursantes",
-                                 array("nombre" => $name[0],
-                                       "apellidos" => $name[1],
-                                       "pais" => $pais,
-                                       "email" => $user,
-                                       "facebook" => '',
-                                       "authcode" => $json['OwnCode'],
-                                       "creado" => date("Y-m-d H:i:s"),
-                                       "activo" => 1
-                                       )
-                                 )
-                   ){
-                    
-                    $json['message'] = "Welcome";
-            
-                    $str = $this->GenerateJson('ok',$json);
-                
-                    echo $str;
-                    
-                } else {
-                
-                    $this->error('Error Interno. '.$pdo->error[2]);
-                
-                }
-                
-            } else {
-            
-                $this->error('Error. Usuario ya registrado.');    
-                
-            }
-            
-        } else {
-            
-            $this->error('Error. Los datos enviados no estan completos.');
-            
-        }
-        
+            $this->error('ID incorrecto');
+
+        endif;        
         
     }
-    
-    
+
+    public function sendMail(){
+
+        $mail = new PHPMailer;
+
+        $mail->isSMTP();                     // Set mailer to use SMTP
+        $mail->Host = 'smtp.gmail.com';     // Specify main and backup server
+        $mail->Port       = 587;     
+        $mail->SMTPAuth = true;            // Enable SMTP authentication
+        $mail->Username = 'andros@xstilo.net';        // SMTP username
+        $mail->Password = 'qwe8521z_&cx';      // SMTP password
+        $mail->SMTPSecure = 'tls';      // Enable encryption, 'ssl' also accepted
+
+        $mail->From = 'andros@pixblob.com';
+        $mail->FromName = 'Andros Romo';
+        $mail->addAddress('zeickan@gmail.com', 'Andros Peña');  // Add a recipient
+        $mail->addReplyTo('andros@webservice.com.mx', 'Webservice');
+        $mail->addCC('me@androsromo.com');
+        $mail->addBCC('vane@pixblob.com');
+
+        $mail->WordWrap = 50;                                 // Set word wrap to 50 characters
+        #$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
+        #$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+        $mail->isHTML(true);                                  // Set email format to HTML
+
+        $mail->Subject = 'Here is the subject';
+        $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
+        $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+        if(!$mail->send()) {
+            $this->error('Error al enviar: '.$mail->ErrorInfo );
+            exit;
+        }
+
+
+        $str = $this->GenerateJson('ok', $json);
+
+        echo $str;
+
+    }
+
 }

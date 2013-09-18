@@ -6,7 +6,8 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-   
+    <script type="text/javascript" src="{{url_site}}static/js/jquery.js"></script>
+    
     <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>
 
@@ -42,12 +43,12 @@
             </nav>
             <nav class="mainmenu">
                 <ul>
-                    <li {{current_home}}><a href="./">Home</a></li>                    
+                    <li {{current_home}}><a href="{{url_site}}">Home</a></li>                    
                     <li {{current_productos}}><a href="{{url_site}}productos/">Productos</a></li>
-                    <li {{current_catalogos}}><a href="#">Catálogos</a></li>
-                    <li {{current_directorio}}><a href="#">Directorio</a></li>                 
-                    <li {{current_nosotros}}><a href="#">Nosotros</a></li>
-                    <li {{current_cotizar}}><a href="#">Cotizar</a></li>
+                    <li {{current_catalogos}}><a href="{{url_site}}seccion/catalogos">Catálogos</a></li>
+                    <li {{current_directorio}}><a href="{{url_site}}seccion/directorio">Directorio</a></li>                 
+                    <li {{current_nosotros}}><a href="{{url_site}}seccion/nosotros">Nosotros</a></li>
+                    <li {{current_cotizar}}><a href="{{url_site}}productos/cotizar">Cotizar</a></li>
                 </ul>
                 <select id="sec-nav" name="sec-nav">
                     <option value="./">Menú principal</option>
@@ -64,6 +65,9 @@
         </section>
     </header>
     <!-- HEADER -->
+
+    
+    <script type="text/javascript" src="{{url_site}}static/js/scripts.js"></script>
 
     {% content %}
 
@@ -97,7 +101,9 @@
     <!-- FOOTER -->
 </div>
 
-<script type="text/javascript" src="{{url_site}}static/js/jquery.js"></script>
-<script type="text/javascript" src="{{url_site}}static/js/scripts.js"></script>
+
+
+
+
 </body>
 </html>

@@ -1,139 +1,295 @@
-{% extends "base.html" %}
-{% load staticfiles %}
-{% block title %}Solicitar cotización | Aceros Vimar{% endblock %}
-{% block content %}
-	<section class="content">
+
+<section class="content">
 		<h1>Solicitar cotización</h1>
 		<article class="main">
 
-			<form method="post" name="cotizacion" id="cotizacion">
-			<section class="columns">
-	
-				<h2><span>Información de contacto</span></h2>
+			{{email}}
+
+		<form action="{{self}}" method="post" name="cotizacion" id="cotizacion">
+		<section class="columns">
 			
-				<p>
-					<label for="name">Nombre de contacto</label><input name="nombre" id="nombre" class="expand">
-				</p>
-				<p>
-					<label for="name">Nombre de la empresa</label><input name="empresa" id="empresa" class="expand">
-				</p>
-				<p class="half">
-					<label for="name">Giro de la empresa</label><input name="giro" id="giro" class="expand">
-				</p>
-				<p class="half">
-					<label for="email">Teléfono (incluir lada)</label><input name="telefono" id="telefono">
-				</p>
-				<p class="half">
-					<label for="email">E-mail</label><input name="email" id="email">
-				</p>
-				<p>
-					<label for="subject">Estado</label><select name="estado" id="estado">
-						<option value="0">Seleccione</option>
-						<option value="1">Distrito Federal</option>
-						<option value="2">Guadalajara</option>
-						<option value="3">...</option>
-					</select>
-				</p>
-				<p>
-					<label for="message">Instrucciones especiales</label><textarea name="mensaje" id="mensaje" rows="3" cols="20"></textarea>
-				</p>	
+					<h2><span>Información de contacto</span></h2>
+					
+						<p> 
+							<label for="name">Nombre de contacto</label><input name="nombre" id="nombre" class="expand">
+						</p>
+						<p>
+							<label for="name">Nombre de la empresa</label><input name="empresa" id="empresa" class="expand">
+						</p>
+						<p class="half">
+							<label for="name">Giro de la empresa</label><input name="giro" id="giro" class="expand">
+						</p>
+						<p class="half">
+							<label for="email">Teléfono (incluir lada)</label><input name="telefono" id="telefono">
+						</p>
+						<p class="half">
+							<label for="email">E-mail</label><input name="email" id="email">
+						</p>
+						<p>
+							<label for="subject">Estado</label><select name="estado" id="estado">
+								<option value="0">Seleccione</option>
+								<option value="1">Distrito Federal</option>
+								<option value="2">Guadalajara</option>
+								<option value="3">...</option>
+							</select>
+						</p>
+						<p>
+							<label for="message">Instrucciones especiales</label><textarea name="mensaje" id="mensaje" rows="3" cols="20"></textarea>
+						</p>
+					
 
-			</section>	
+					
+		</section>	
+		</form>
 
-			<section class="columns">	
-				<h2><span>Productos a cotizar</span></h2>
-				<p>				
+		<section class="columns">
+	
+			<h2><span>Productos a cotizar</span></h2>
+			<p>
+				
 					<select name="productoSel" id="productoSel">
-						<option value="0">Producto</option>
-						<option value="3">asdasdasd asd sad </option>
+						<option value="">Producto</option>
 					</select>
-					<select name="mediadaSel" id="mediadaSel">
-						<option value="0">Medida</option>
-						<option value="3">...</option>
-					</select>
-					<select name="unidadSel" id="unidadSel">
-						<option value="0">Unidad</option>
-						<option value="3">...</option>
-					</select>	
 
-					<input name="cantidadSel" id="cantidadSel" placeholder="cantidad" class="qinquotation">
+				<select name="mediadaSel" id="mediadaSel">
+						<option value="">Variación</option>
+					</select>
+			
+
+					<select name="unidadSel" id="unidadSel">
+						<option value="p">Piezas</option>
+					<option value="ml">Metros Lineales</option>
+					<option value="kg">Kilogramos</option>
+					<option value="tn">Toneladas</option>
+					</select>
+			
+	
+
+					<input name="cantidadSel" id="cantidadSel" placeholder="cantidad" class="qinquotation" value ="1">
 					<br><br>
-					<a href="" class="button ">Agregar a cotización &gt;&gt;</a>
-				</p><br>
-				<p>
-					<table class="pricing">
-						<tr>
-							<td style="width:50%"><b>Producto</b></td>
-							<td style="width:25%"><b>Medida</b></td>
-							<td style="width:25%"><b>Cantidad / Unidad</b></td>
-						</tr>
-						<tr>
-							<td>Varilla Corrugada</td>
-							<td>7.9mm</td>
-							<td>2 toneladas</td>
-						</tr>
-						<tr>
-							<td>Alambre de púas</td>
-							<td>5"</td>
-							<td>200 metros</td>
-						</tr>
-					</table>
+					<a href="javascript:void(0);" class="button" id="add2Cotizacion">Agregar a cotización &gt;&gt;</a>
 				</p>
-				<p style="text-align:center"><button name="send" type="submit" value="1" style="font-size:20px">Enviar cotización</button></p>
-			</section>
-			</form>
+				<br>
+				<p>
+				<table class="pricing">
+					<tr>
+						<td style="width:50%"><b>Producto</b></td>
+						<td style="width:23%"><b>Variación</b></td>
+						<td style="width:23%"><b>Cantidad / Unidad</b></td>
+						<td style="width:4%"></td>
+					</tr>
+
+					
+				</table>
+			</p>
+
+			<p style="text-align:center"><button class="sendMail" name="send" type="submit" value="1" style="font-size:20px">Solicitar esta cotización</button></p>
+
+		</section>
+
 
 
 
 		</article>
 
-		<aside ><div style="position:fixed;">
-			<h4>Convertidor de unidades</h4>
-				<div>
-					
-					<p>
-						Producto: <br>
-						<select name="" id="">
-							<option>Seleccione</option>
-							<option value="" selected="selected">Ángulo Estándar</option>
-							<option value="">Varilla</option>
-							<option value="">Producto2</option>
-							<option value="">Producto3</option>
-							<option value="">Producto4</option>
-						</select>
-					</p>
+		<aside>
+		<h4>Convertidor de unidades</h4>
+			<div>
+				
+				<p>
+					Producto: <br>
+					<select name="" id="">
+						<option value="" selected="selected">Seleccione producto</option>
+					</select>
+				</p>
 
-					<p>
-						Medida: <br>
-						<select name="" id="">
-							<option>Seleccione</option>
-							<option value="" selected="selected">7"</option>
-							<option value="">medida2</option>
-							<option value="">medida3</option>
-							<option value="">medida4</option>
-							<option value="">medida5</option>
-						</select>
-					</p>
-					<p>
-					Cantidad: <input type="text" name="cantidadpr" id="cantidadpr" style="width: 60px;" placeholder="#" value="1">
-					<br>De: 
-					<input type="radio" name="depr" value="piezas" checked="checked"> <i>Piezas</i> 
-					<input type="radio" name="depr" value="kg"> <i>Kilogramos</i> 
-					<input type="radio" name="depr" value="tn"> <i>Toneladas</i> 
+				<p>
+					Medida: <br>
+					<select name="" id="">
+						<option value="">Seleccione variación</option>
+					</select>
+				</p>
+				<p>
+				Cantidad: <br><input type="text" name="cantidadpr" id="cantidadpr" style="width: 93%;" placeholder="#" value="1">
+				</p>
+				<p>
+				Unidad: <br>
+				<span><select name="cantidadde" id="cantidadde">
+					<option value="p">Piezas</option>
+					<option value="ml">Metros Lineales</option>
+					<option value="kg">Kilogramos</option>
+					<option value="tn">Toneladas</option>
+				</select></span>
+				</p>
+				<p style="text-align:center"><button id="convertir">Convertir</button></p>
+				<!-- <br>De: 
+				<input type="radio" name="depr" value="piezas" checked="checked"> <i>Piezas</i> 
+				<input type="radio" name="depr" value="kg"> <i>Kilogramos</i> 
+				<input type="radio" name="depr" value="tn"> <i>Toneladas</i> 
 
-					<br>A: 
-					<input type="radio" name="apr" value="piezas"> <i>Piezas</i> 
-					<input type="radio" name="apr" value="kg" checked="checked"> <i>Kilogramos</i> 
-					<input type="radio" name="apr" value="tn"> <i>Toneladas</i> 
-					</p>	
+				<br>A: 
+				<input type="radio" name="apr" value="piezas"> <i>Piezas</i> 
+				<input type="radio" name="apr" value="kg" checked="checked"> <i>Kilogramos</i> 
+				<input type="radio" name="apr" value="tn"> <i>Toneladas</i>  -->
+				</p>	
 
-					<div class="roundedConvertResult">
-						1 pieza(s) = <span>2.8 kilogramos</span>
+				<div class="roundedConvertResult" id="medidasResults">
+					<!-- <span id="selunit"></span> -->
+					<ul>
+						<!-- <li><span>5</span> Metros lineales</li>
+						<li><span>100</span> Kilogramos</li>
+						<li><span>0.1</span> Toneladas</li> -->
+					</ul>
 
-					</div>
 				</div>
 			</div>
-		</aside>
+	</aside>
 		
-	</section>
-{% endblock %}
+</section>
+
+<script type="text/javascript">
+
+	var productos = new Array();
+	{{meta}}
+
+
+</script>
+
+<script type="text/javascript">
+	$(function(){
+
+
+		var numCotRow = 1;
+
+		var productosSelectCotizacion = "select:eq(3)";
+		var variacionesSelectCotizacion = "select:eq(4)";
+		var piezasCotizacion = "select:eq(5)";
+
+
+		var productosSelect = "select:eq(6)";
+		var variacionesSelect = "select:eq(7)";
+		var unidadSelect = "select:eq(8)";
+
+
+
+		fillProdsSelect(productosSelectCotizacion);
+
+		$(productosSelectCotizacion).change(function(){
+			var val = $(this).val();
+			var text = $(this).find("option:selected").text();
+			if(val != ""){
+				fillVariacionesSelect(variacionesSelectCotizacion,text)
+			}
+		});
+
+
+
+
+
+		fillProdsSelect(productosSelect);
+
+		$(productosSelect).change(function(){
+			var val = $(this).val();
+			var text = $(this).find("option:selected").text();
+			if(val != ""){
+				fillVariacionesSelect(variacionesSelect,text)
+			}
+		});
+		
+
+		$("#convertir").click(function(e) {
+
+			//console.log($(variacionesSelect).val()+"<<--")
+			if($(unidadSelect).val() != "" && $(cantidadpr).val() != "" && $(variacionesSelect).val() != ""){	
+				r = convert($(unidadSelect).val(),$(cantidadpr).val(),$(variacionesSelect).val());
+				doConversion("#medidasResults ul",r);
+			}
+			else{
+				alert("Llene todos los campos para realizar la conversión")
+			}
+
+			
+		});
+
+
+		// Agregar a cotización
+		$("#add2Cotizacion").on("click",function(){
+
+			var producto = $(productosSelectCotizacion+" option:selected").text();
+			var variacion = $(variacionesSelectCotizacion+" option:selected").text();
+			var unidad = $(piezasCotizacion).val();
+			var cantidad = $(cantidadSel).val();
+
+			if(producto == "producto" || variacion == "Variación" || cantidad == "" || cantidad <= 0){
+				alert("Llene todos los campos de los productos a cotizar");
+				return false;
+			}
+
+			switch(unidad){
+					case "p": unidad =  "Pieza(s)";  break;
+					case "ml": unidad =  "Metros Lineales"; break;
+					case "kg": unidad =  "Kilogramos"; break;
+					case "tn": unidad =  "Toneladas"; break;
+			}
+
+			$(".pricing").append('<tr rel="'+numCotRow+'"><td>'+producto+'</td><td>'+variacion+'</td><td>'+cantidad+ ' '+unidad+'</td><td><button class="deletePCoti" onclick="deleteRow('+numCotRow+')"><img src="{{static}}images/icons/delete.png" alt=""></button></td></tr>');	
+			 numCotRow++;
+
+
+			 $("form#cotizacion").append(
+			 		$("<input />")
+			 			.attr("type","hidden")
+			 			.attr("name","producto[]")
+			 			.val(producto+" / "+variacion+" / "+cantidad+" "+unidad)
+			 		); 
+
+		});
+
+		$(".sendMail").click(function(event) {
+			/* Act on the event */
+			$("form#cotizacion").submit();
+
+		});
+
+
+		/*$(".deletePCoti").on("click",function(){
+
+
+			var numRow = $(this).attr("rel");
+
+			var eliminar = confirm("¿Esta seguro que desea eliminar este producto de la lista?");
+			
+			if(eliminar){
+				console.log(numRow);
+				//$(".pricing").find("tr[rel='"+numRow+"']").remove();
+				$(".pricing").find("tr").eq(numRow).remove();		
+
+			}
+			return false;
+			
+		});*/
+
+		
+
+
+	})
+
+function deleteRow(row){
+
+	//var numRow = $(this).attr("rel");
+
+	var eliminar = confirm("¿Esta seguro que desea eliminar este producto de la lista?");
+	
+	if(eliminar){
+		console.log(row);
+		$(".pricing").find("tr[rel='"+row+"']").remove();
+		//$(".pricing").find("tr").eq(row).remove();		
+
+	}
+
+	return false;
+
+}
+
+
+</script>

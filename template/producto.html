@@ -19,6 +19,8 @@
 					<dd><a href="#">Metálico</a></dd>
 				</dl>
 
+			
+
 				
 			</div>
 
@@ -32,36 +34,76 @@
 		</article>
 	</article>
 		<aside>
-		<section>
+		<!-- <section> -->
 		<h4>Convertidor de unidades</h4>
 			<div>
 				<p>
-					Producto: <br>
+					Medida: <br>
 					<select name="" id="">
-						<option disabled="disabled" selected="selected">Seleccione</option>
-						{{table}}
+						<option value="">Seleccione variación</option>
 					</select>
 				</p>
 				<p>
-				Cantidad: <input type="text" name="cantidadpr" id="cantidadpr" style="width: 60px;" placeholder="#" value="1">
-				<br>De: 
-				<input type="radio" name="depr" value="piezas" checked="checked"> <i>Piezas</i> 
-				<input type="radio" name="depr" value="kg"> <i>Kilogramos</i> 
-				<input type="radio" name="depr" value="tn"> <i>Toneladas</i> 
+				Cantidad: <br><input type="text" name="cantidadpr" id="cantidadpr" style="width: 93%;" placeholder="#" value="1">
+				</p>
+				<p>
+				Unidad: <br>
+				<span><select name="cantidadde" id="cantidadde">
+					<option value="p">Piezas</option>
+					<option value="ml">Metros Lineales</option>
+					<option value="kg">Kilogramos</option>
+					<option value="tn">Toneladas</option>
+				</select></span>
+				</p>
+				<p style="text-align:center"><button id="convertir">Convertir</button></p>
 
-				<br>A: 
-				<input type="radio" name="apr" value="piezas"> <i>Piezas</i> 
-				<input type="radio" name="apr" value="kg" checked="checked"> <i>Kilogramos</i> 
-				<input type="radio" name="apr" value="tn"> <i>Toneladas</i> 
-				</p>	
-
-				<div class="roundedConvertResult">
-					1 pieza(s) <br>= <br><span>2.8 kilogramos</span>
-
+				<div class="roundedConvertResult" id="medidasResults">
+					<ul></ul>
 				</div>
 			</div>
 
-			<p ><a href="#" class="button">Cotize este producto</a></p>
-			</section>
+			<!-- </section> -->
 	</aside>
 	</section>
+
+<script type="text/javascript">
+	var productos = new Array();
+	// 0: Nombre, 1: Variación, 2: longitud en metros, 3: peso en kgs  
+	{{table}}
+
+</script>
+<script type="text/javascript">
+        $(function(){
+
+            var productoText = "{{nombre}}";
+            var variacionesSelect = "select:eq(2)";
+            var unidadSelect = "select:eq(3)";
+
+        /*  $(productosSelect).change(function(){
+                var val = $(this).val();
+                var text = $(this).find("option:selected").text();
+                if(val != ""){
+                    fillVariacionesSelect(variacionesSelect,text)
+                }
+            });*/
+
+            fillVariacionesSelect(variacionesSelect,productoText)
+            
+
+            $("#convertir").click(function(e) {
+
+                //console.log($(variacionesSelect).val()+"<<--")
+                if($(unidadSelect).val() != "" && $(cantidadpr).val() != "" && $(variacionesSelect).val() != ""){   
+                    r = convert($(unidadSelect).val(),$(cantidadpr).val(),$(variacionesSelect).val());
+                    doConversion("#medidasResults ul",r);
+                }
+                else{
+                    alert("Llene todos los campos para realizar la conversión")
+                }
+
+                
+            });
+
+        })
+
+    </script>
